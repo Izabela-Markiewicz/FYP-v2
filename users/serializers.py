@@ -8,7 +8,7 @@ from areas.serializers import *
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('userID', 'username', 'userYype', 'totalReviews', 'password', 'email', 'fName', 'lName')
+        fields = ('userID', 'username', 'userType', 'totalReviews', 'password', 'email', 'fName', 'lName')
 
 # Review serializer
 class ReviewSerializer(serializers.ModelSerializer):

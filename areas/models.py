@@ -14,8 +14,8 @@ class Country(models.Model):
 class PoliceDivision(models.Model):
     policeID = models.AutoField(primary_key=True)
     policeName = models.CharField(max_length=255)
-    longitude = models.DecimalField(max_digits=50, decimal_places=30)
-    latitude = models.DecimalField(max_digits=50, decimal_places=30)
+    longitude = models.DecimalField(max_digits=50, decimal_places=15)
+    latitude = models.DecimalField(max_digits=50, decimal_places=15)
     crimeRating = models.DecimalField(max_digits=10, decimal_places=2)
 
 class City(models.Model):
