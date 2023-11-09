@@ -4,7 +4,7 @@ from . import views
 # Setting views/pages
 urlpatterns = [
     path('map/', views.show_map),
-    #REF: Change landing page (9CV9 HR, 2019
+    #REF: Change landing page (9CV9 HR, 2019)
     path('', views.landing_page, name='landing_page')
 ]
 

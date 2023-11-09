@@ -10,3 +10,9 @@ def show_map(request):
 # Landing Page
 def landing_page(request):
     return render(request, 'landing.html')
+
+"""
+REFERENCES:
+
+
+"""

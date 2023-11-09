@@ -16,3 +16,5 @@ MrNick. “Building a CRUD API with Django Rest Framework and PostgreSQL - Tutor
 Dayne, A. (2022). Create foreign key objects inside serializer. [online] Stack Overflow. Available at: https://stackoverflow.com/questions/73162763/create-foreign-key-objects-inside-serializer [Accessed 4 Nov. 2023].
 Sankalpjonna.com. (2023). Representing foreign key values in Django serializers. [online] Available at: https://www.sankalpjonna.com/learn-django/representing-foreign-key-values-in-django-serializers [Accessed 4 Nov. 2023].
 Curry, C. (2022). How to Upload an Image Using Django ImageField (The RIGHT Way). YouTube. Available at: https://www.youtube.com/watch?v=fsVY66QBhwM [Accessed 4 Nov. 2023].
+9CV9 HR (2019). How to Set Up Your Homepage with Django - 9cv9 HR and Career Blog | Top Rated by Readers - Medium. [online] Medium. Available at: https://medium.com/@9cv9official/how-to-set-up-your-homepage-with-django-ae21f439c8a3 [Accessed 9 Nov. 2023].
+ChatGPT, 2023. Iteration1-1. Prompt- "my static file is a folder in my overall django project. i used a bootstrap template for one of my apps, but the css or images wont load"

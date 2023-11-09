@@ -18,6 +18,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +27,16 @@ urlpatterns = [
     path('', include('areas.urls')),
     path('areas/', include('areas.urls')),
     
-
-
 ]
+
+# Setting directory for 'static' folder for images, css, js, etc.
+#REF: Iteration1-1(ChatGPT3.5,2023)
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+"""
+REFERENCES:
+ChatGPT, 2023. Iteration1-1. Prompt- "my static file is a folder in my overall django project. i used a bootstrap template for one of my apps, but the css or images wont load"
+
+"""
