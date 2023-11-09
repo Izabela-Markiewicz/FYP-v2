@@ -3,9 +3,8 @@ from .models import *
 from . import models
 from import_export.admin import ImportExportModelAdmin # Upload CSVs to Django Admin
 
-
-
-# Register your models here.
+# Iteration 1:
+# Registering models for ADMIN SITE
 admin.site.register(Gradient)
 admin.site.register(Area)
 admin.site.register(City)

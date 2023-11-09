@@ -5,13 +5,14 @@ from .serializers import UserSerializer
 
 # Create your views here.
 
+# Environment
 # Create a user and display info
 # REF: CRUD with REST APIs (MrNick, 2023)
 class UserListCreate(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
+# Environment
 # Retrieve, Update or Delete user by ID
 # REF: CRUD with REST APIs (MrNick, 2023)
 class UserRetrieveUpdateDelete(generics.RetrieveUpdateDestroyAPIView):

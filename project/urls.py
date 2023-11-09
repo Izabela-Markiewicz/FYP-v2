@@ -22,17 +22,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('users.urls')),
-    path('', include('areas.urls')),
-    path('areas/', include('areas.urls')),
+    path('admin/', admin.site.urls), # Iteration 1
+    path('', include('users.urls')), # Environment
+    path('', include('areas.urls')), # Iteration 1
+    path('areas/', include('areas.urls')), # Iteration 1
     
 ]
 
 # Setting directory for 'static' folder for images, css, js, etc.
 #REF: Iteration1-1(ChatGPT3.5,2023)
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # Iteration 1
 
 
 """

@@ -1,6 +1,8 @@
 from django.db import models
 
-# Create your models here.
+# Iteration 1:
+# CREATING MODELS for all map-related objects
+
 class Gradient(models.Model):
     gradientID = models.AutoField(primary_key=True)
     gradientName = models.CharField(max_length=50)
@@ -42,3 +44,10 @@ class CrimeRecord(models.Model):
     policeID = models.ForeignKey(PoliceDivision, on_delete=models.CASCADE, related_name='crime_records')
     crimeType = models.CharField(max_length=255)
     value = models.IntegerField()
+
+
+"""
+REFERENCES:
+
+
+"""

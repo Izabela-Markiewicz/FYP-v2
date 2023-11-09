@@ -37,15 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'bootstrap5',
+    'rest_framework', # Iteration 1
+    'bootstrap5', # Iteration 1
 
     # My Apps:
-    'users',
-    'areas',
+    'users', # Iteration 1
+    'areas', # Iteration 1
 
     # 3rd Party:
-    'import_export', #csv reader
+    'import_export', #csv reader # Iteration 1
     
 ]
 
@@ -83,9 +83,10 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Iteration 1
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql', 
         'NAME': 'SafeExplorerDB',
         'USER': 'postgres',
         'PASSWORD': 'admin',
@@ -131,10 +132,11 @@ USE_TZ = True
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
-STATIC_URL = '/static/'
+# Set path to 'static' folder with assets/css/js
+STATIC_URL = '/static/' # Iteration 1
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'static' # Iteration 1
 ]
 
 # Default primary key field type

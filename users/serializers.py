@@ -3,13 +3,15 @@ from .models import *
 from areas.models import *
 from areas.serializers import *
 
-#REF: Serialisers used in Youtube Video Connecting PostgreSQL to Django (MrNick, 2023) "Building a CRUD API with Django Rest Framework and PostgreSQL - Tutorial for Beginners."
+# Environment
 # User serializer
+#REF: Serialisers used in Youtube Video Connecting PostgreSQL to Django (MrNick, 2023) "Building a CRUD API with Django Rest Framework and PostgreSQL - Tutorial for Beginners."
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('userID', 'username', 'userType', 'totalReviews', 'password', 'email', 'fName', 'lName')
 
+# Iteration 1
 # Review serializer
 class ReviewSerializer(serializers.ModelSerializer):
     #REF: Foreign Keys as part of serializer of other object (Dayne, 2022)

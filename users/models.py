@@ -1,7 +1,8 @@
 from django.db import models
 from areas.models import Area
 
-# Create your models here.
+# Iteration 1:
+# CREATING MODELS for all user-related objects
 class User(models.Model):
     userID = models.AutoField(primary_key=True)
     username = models.CharField(max_length=255)
