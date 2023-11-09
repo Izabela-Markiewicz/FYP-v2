@@ -36,7 +36,7 @@ class Area(models.Model):
     gradientID = models.ForeignKey(Gradient, on_delete=models.CASCADE, related_name='areas')
 
 class CrimeRecord(models.Model):
-    recordID = models.AutoField(primary_key=True)
+    recordID = models.AutoField(primary_key=True)  
     year = models.IntegerField()
     cityID = models.ForeignKey(City, on_delete=models.CASCADE, related_name='crime_records')
     policeID = models.ForeignKey(PoliceDivision, on_delete=models.CASCADE, related_name='crime_records')
