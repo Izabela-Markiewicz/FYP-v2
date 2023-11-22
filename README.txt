@@ -1,7 +1,7 @@
 Project: Safe Explorer
 Creator: Izabela Markiewicz
 Date: Academic Year 2023/2024
-Version: Iteration 1
+Version: Iteration 2
 ---------------------------------------------
 
 References can be found:
@@ -21,4 +21,7 @@ Iteration 1:
     9CV9 HR (2019). How to Set Up Your Homepage with Django - 9cv9 HR and Career Blog | Top Rated by Readers - Medium. [online] Medium. Available at: https://medium.com/@9cv9official/how-to-set-up-your-homepage-with-django-ae21f439c8a3 [Accessed 9 Nov. 2023].
     ChatGPT, 2023. Iteration1-1. Prompt- "my static file is a folder in my overall django project. i used a bootstrap template for one of my apps, but the css or images wont load"
     THE PROTON GUY (2022). Django Import Export | Import And Export Data To & From Database. YouTube. Available at: https://www.youtube.com/watch?v=DIr1wYjTM64 [Accessed 8 Nov. 2023].
+
+Iteration 2:
+    Google for Developers. (2023). The Maps Embed API quickstart. [online] Available at: https://developers.google.com/maps/documentation/embed/quickstart [Accessed 22 Nov. 2023].
 
