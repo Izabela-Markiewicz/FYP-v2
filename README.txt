@@ -24,4 +24,4 @@ Iteration 1:
 
 Iteration 2:
     Google for Developers. (2023). The Maps Embed API quickstart. [online] Available at: https://developers.google.com/maps/documentation/embed/quickstart [Accessed 22 Nov. 2023].
-
+    Stackoverflow (2016). Text outer glow effect using CSS. [online] Stack Overflow. Available at: https://stackoverflow.com/questions/40393497/text-outer-glow-effect-using-css [Accessed 23 Nov. 2023].
