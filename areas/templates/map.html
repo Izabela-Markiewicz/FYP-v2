@@ -27,13 +27,16 @@
     </head>
     <body id="page-top">
 
+        <!-- Iteration 2 --> 
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
             <div class="container px-5">
-                <a class="navbar-brand" href="#page-top">Safe Explorer</a>
+                <!-- Redirect to Landing Page hyperlink --> 
+                <a class="navbar-brand" href="/">Safe Explorer</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="/map">Search for a Location</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Sign Up</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Log In</a></li>
                     </ul>
@@ -43,7 +46,7 @@
 
         <!-- Iteration 2 -->  
         <!-- Header-->
-        <header class="masthead text-center text-white has-bg-img" style="background-image:url({% static 'assets/img/bg1.jpeg' %})">
+        <header class="masthead text-center text-white has-bg-img" style="background-image:url({% static 'assets/img/cork1.jpg' %})">
             <div class="masthead-content has-bg-img">        
                 <div class="container px-5">
                     <!-- Iteration 2 -->   
@@ -59,12 +62,13 @@
 
         <!-- Iteration 2 -->    
         <!-- Search Bar and Location Name-->
-        <!-- REF: Wokring with grids (GetBootstrap, 2023) -->
+        <!-- REF: Working with grids (GetBootstrap, 2023) -->
         <section id="scroll">
             <div class="container px-5" style="padding-top:30px">
                 <div class="row gx-5 align-items-center"> 
 
-                    <!-- Left: Location Name -->
+                    <!-- Left: Search Bar-->
+                    <!-- REF: Search Bar (MD Bootstrap, 2023) --> 
                     <div class="col-lg-6 order-lg-2">                       
                         <div class="input-group rounded container px-5">
                             <input  type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
@@ -74,7 +78,7 @@
                         </div>                          
                     </div>
 
-                    <!-- Right: Search Bar -->
+                    <!-- Right: Location Name -->
                     <div class="col-lg-6 order-lg-1">
                         <div class="p-5" style="text-align:center">
                             <h3 class="display-4">Location Name</h3>
@@ -95,8 +99,7 @@
                     <!-- REF: Embedded Maps Setup (Google for Developers, 2023) -->
                     <iframe width="90%" height="500" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?q=cork&key=AIzaSyD4jbWtCYkJyyvYxwUeVLpJShFO7SMP4BY"></iframe>           
                 </div>
-            </div>
-           
+            </div>         
         </section>
 
         <!-- Iteration 2 -->    
@@ -170,7 +173,10 @@ Iteration 2:
     Google for Developers. (2023). The Maps Embed API quickstart. [online] Available at: https://developers.google.com/maps/documentation/embed/quickstart [Accessed 22 Nov. 2023].
     GetBootstrap (2023). Grid system. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/4.0/layout/grid/ [Accessed 22 Nov. 2023].
     Stackoverflow (2016). Text outer glow effect using CSS. [online] Stack Overflow. Available at: https://stackoverflow.com/questions/40393497/text-outer-glow-effect-using-css [Accessed 23 Nov. 2023].
+    MD Bootstrap (2013). Bootstrap Search - examples & tutorial. [online] MDB - Material Design for Bootstrap. Available at: https://mdbootstrap.com/docs/standard/forms/search/ [Accessed 23 Nov. 2023].
 
+Images:
+    Cork Header Background - Irish Mirror. (2022). Cork claims ‘fittest place’ crown across UK and Ireland. [online] Irish Mirror. Available at: https://www.irishmirror.ie/news/irish-news/health-news/cork-claims-fittest-place-crown-28107536 [Accessed 23 Nov. 2023].
 ‌
-‌
+
 ‌-->

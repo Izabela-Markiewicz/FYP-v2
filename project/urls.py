@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls), # Iteration 1
     path('', include('users.urls')), # Environment
     path('', include('areas.urls')), # Iteration 1
-    path('areas/', include('areas.urls')), # Iteration 1   
+     
 ]
 
 # Setting directory for 'static' folder for images, css, js, etc.
