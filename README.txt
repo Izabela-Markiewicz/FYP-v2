@@ -27,3 +27,8 @@ Iteration 2:
     GetBootstrap (2023). Grid system. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/4.0/layout/grid/ [Accessed 22 Nov. 2023].
     Stackoverflow (2016). Text outer glow effect using CSS. [online] Stack Overflow. Available at: https://stackoverflow.com/questions/40393497/text-outer-glow-effect-using-css [Accessed 23 Nov. 2023].
     MD Bootstrap (2013). Bootstrap Search - examples & tutorial. [online] MDB - Material Design for Bootstrap. Available at: https://mdbootstrap.com/docs/standard/forms/search/ [Accessed 23 Nov. 2023].
+
+Iteration 3:
+  xxx  Coder, C. (2021). Use the Google Maps API to build a custom map with markers. YouTube. Available at: https://www.youtube.com/watch?v=CdDXbvBFXLY [Accessed 4 Jan. 2024].
+
+‌

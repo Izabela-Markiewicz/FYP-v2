@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', # Iteration 1
     'bootstrap5', # Iteration 1
+    'leaflet', # Iteration 3
+    'django.contrib.gis',
+    'django.contrib.gis.geos',
 
     # My Apps:
     'users', # Iteration 1
@@ -138,6 +143,12 @@ STATIC_URL = '/static/' # Iteration 1
 STATICFILES_DIRS = [
     BASE_DIR / 'static' # Iteration 1
 ]
+
+# Add the GDAL_LIBRARY_PATH setting
+#GDAL_LIBRARY_PATH = r'C:\Users\Izabela Markiewicz\Documents\Development Projects\FYP-v2\venv\Lib\site-packages\osgeo\gdal304.dll'
+# Set GDAL_LIBRARY_PATH
+GDAL_LIBRARY_PATH = os.path.join(BASE_DIR, 'venv', 'Lib', 'site-packages', 'osgeo', 'gdal304.dll')
+GEOS_LIBRARY_PATH = r'C:\Users\Izabela Markiewicz\Documents\Development Projects\FYP-v2\venv\Lib\site-packages\osgeo\geos_c.dll'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

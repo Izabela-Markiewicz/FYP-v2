@@ -19,13 +19,38 @@
         <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Iteration 3: -->
+        <!-- Including Google Maps JavaScript API -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=geometry"></script>
+
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+        <style>
+            #map{
+                height: 500px;
+                width: 100%;
+            }
+        </style>
+
+
     </head>
-    <body id="page-top">
+
+    <body>
+
+                <!-- Iteration 3 
+                {% load leaflet_tags %}
+                {% leaflet_map "map" callback="map_init" %}
+                {% leaflet_css %}
+                {% leaflet_js %}
+                {% load static %}
+            -->
 
         <!-- Iteration 2 --> 
         <!-- Navigation-->
@@ -63,7 +88,7 @@
         <!-- Iteration 2 -->    
         <!-- Search Bar and Location Name-->
         <!-- REF: Working with grids (GetBootstrap, 2023) -->
-        <section id="scroll">
+        <section id="search-bar">
             <div class="container px-5" style="padding-top:30px">
                 <div class="row gx-5 align-items-center"> 
 
@@ -91,20 +116,70 @@
         </section>
 
         <!-- Iteration 2: -->
-        <!-- Map -->
+        <!-- Map 
         <section id="scroll">                     
             <div class="container px-5">
                 <div class="row gx-5 align-items-center">              
-                    <!-- Google Maps Embedded-->
+                    < Google Maps Embedded-->
                     <!-- REF: Embedded Maps Setup (Google for Developers, 2023) -->
+                    <!--
                     <iframe width="90%" height="500" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?q=cork&key=AIzaSyD4jbWtCYkJyyvYxwUeVLpJShFO7SMP4BY"></iframe>           
                 </div>
             </div>         
         </section>
+    -->
+
+        <!-- Iteration 3: -->
+        <!-- Map (Leaflet) 
+        <section id="map" class="mb-5">
+            <div class="container px-5">
+                <div class="row gx-5 align-items-center">    
+                    <! Chloropleth Map called using JS          
+                    <! Your map initialization script 
+                    <div class="col-lg-12">
+                        <div id="map"></div>
+                        <script>
+                            // Leaflet map initialization script
+                            var map = L.map('map').setView([51.8985, 8.4756], 5);
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '© OpenStreetMap contributors'
+                            }).addTo(map);
+        
+                            // Customize your map initialization here
+                            function map_init(map, options) {
+                                // Your additional customization goes here
+                            }
+        
+                            // Execute invalidateSize() after a delay
+                            setTimeout(function () {
+                                map.invalidateSize();
+                            }, 100);
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+    -->
+    <!-- Map (Leaflet) 
+        <section>
+        <div id="map"></div>
+        </section>
+-->
+
+        <!-- Iteration 2: -->
+        <!-- Map   -->
+        <section>                     
+            <div class="container px-5">
+                <div id= "map"class="row gx-5 align-items-center"></div>
+            </div>         
+        </section>
+  
+
+    
 
         <!-- Iteration 2 -->    
         <!-- Area Analytics-->
-        <section id="scroll">
+        <section id="area-analytics">
             <div class="container px-5">
                 <div class="row align-items-center"> 
 
@@ -154,20 +229,33 @@
         <footer class="py-5 bg-black">
             <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; Safe Explorer 2023</p></div>
         </footer>
+
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="{% static 'js/scripts.js' %}"></script>
+
+
     </body>
 </html>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+    var map = L.map('map').setView([51.903614, -8.468399], 12);
 
-<!-- REF: Template from Bootstrap.com - Startbootstrap.com. (2023). Start Bootstrap. [online] Available at: https://startbootstrap.com/theme/one-page-wonder [Accessed 9 Nov. 2023].
-        License: Free to use - https://github.com/startbootstrap/startbootstrap-one-page-wonder/blob/master/LICENSE         
--->
+    var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        osm.addTo(map);
 
+        
+</script>
 
 <!--
 REFRERENCES:
+
+Template:
+    Template from Bootstrap.com - Startbootstrap.com. (2023). Start Bootstrap. [online] Available at: https://startbootstrap.com/theme/one-page-wonder [Accessed 9 Nov. 2023].
+    License: Free to use - https://github.com/startbootstrap/startbootstrap-one-page-wonder/blob/master/LICENSE         
 
 Iteration 2:
     Google for Developers. (2023). The Maps Embed API quickstart. [online] Available at: https://developers.google.com/maps/documentation/embed/quickstart [Accessed 22 Nov. 2023].
@@ -175,8 +263,12 @@ Iteration 2:
     Stackoverflow (2016). Text outer glow effect using CSS. [online] Stack Overflow. Available at: https://stackoverflow.com/questions/40393497/text-outer-glow-effect-using-css [Accessed 23 Nov. 2023].
     MD Bootstrap (2013). Bootstrap Search - examples & tutorial. [online] MDB - Material Design for Bootstrap. Available at: https://mdbootstrap.com/docs/standard/forms/search/ [Accessed 23 Nov. 2023].
 
+Iteration 3:
+    Kennett, M. (2020). Basic JavaScript with Django. YouTube. Available at: https://www.youtube.com/watch?v=l0rV7AIenTY [Accessed 7 Jan. 2024].
+
+‌
+
 Images:
     Cork Header Background - Irish Mirror. (2022). Cork claims ‘fittest place’ crown across UK and Ireland. [online] Irish Mirror. Available at: https://www.irishmirror.ie/news/irish-news/health-news/cork-claims-fittest-place-crown-28107536 [Accessed 23 Nov. 2023].
 ‌
-
 ‌-->
