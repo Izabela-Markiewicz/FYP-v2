@@ -31,6 +31,8 @@
      crossorigin=""/>
         <!-- Leaflet Geocoding Plugin -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+        <!-- Leaflet Search Plugin -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet-search/dist/leaflet-search.min.css" />  
         <style>
             #map{
                 height: 500px;
@@ -39,6 +41,19 @@
             .leaflet-container :focus:not(:focus-visible) {
                 outline: 0;
               }
+            
+            .info {
+                padding: 6px 8px;
+                font: 14px/16px Arial, Helvetica, sans-serif;
+                background: white;
+                background: rgba(255,255,255,0.8);
+                box-shadow: 0 0 15px rgba(0,0,0,0.2);
+                border-radius: 5px;
+            }
+            .info h4 {
+                margin: 0 0 5px;
+                color: #777;
+            }
         </style>
     </head>
 
@@ -91,11 +106,12 @@
                     <!-- REF: Search Bar (MD Bootstrap, 2023) --> 
                     <div class="col-lg-6 order-lg-2">                       
                         <div class="input-group rounded container px-5">
-                            <input  type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <input id="external-search" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                             <span  class="input-group-text border-0" id="search-addon">
                             <i class="fas fa-search"></i>
                             </span>
-                        </div>                          
+                        </div>
+                         
                     </div>
 
                     <!-- Right: Location Name -->
@@ -141,7 +157,7 @@
                         <!-- Metric 1 -->
                         <div class="col">
                             <div class="p-5" style="text-align:center">
-                                <h2 class="display-4">123</h2>
+                                <h2 class="display-4" id="Robberies">{{ my_variable }}</h2>
                                 <h3>Robberies</h3>
                                 <h6>In 2022</h6>
                             </div>
@@ -194,10 +210,12 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-{% comment  %} <scipt src="./data/CorkDivisions.js"><</scipt> might be needed at some point {% endcomment %}
+<script src="https://unpkg.com/leaflet-search/dist/leaflet-search.min.js"></script>
+
+{% comment  %} <script src="./data/CorkDivisions.js"><</script> might be needed at some point {% endcomment %}
 <script>
     // Iteration 3
-    // REF: Full Leaflet Tutorial - Youtube [57 mins] (The GIS Hub,2022)
+    // REF: Full Leaflet Tutorial - Youtube [57 mins] (The GIS Hub, 2022)
     // Showing Leaflet Base Map
     var map = L.map('map').setView([51.898, -8.4788], 12.5);
 
@@ -207,28 +225,85 @@
         osm.addTo(map);
     
     // Adding Cork divisions from GeoJSON  
-    var polygonJSON = L.geoJSON.ajax(" {% static 'data/CorkDivisions.geojson' %} ", {
-        style: {
-            fillColor: 'green',  
-            color: 'black',      
-            weight: 1.5,           
-            opacity: 2,
-        },
+   // Adding Cork divisions from GeoJSON  
+var polygonJSON = L.geoJSON.ajax(" {% static 'data/CorkDivisions.geojson' %} ", {
+    style: style,  // Add the style function here
+    onEachFeature: onEachFeature
+}).addTo(map);
 
-        onEachFeature: function (feature, layer) {
-            // Add a click event listener to each feature
-            layer.on('click', function (event) {
-                var properties = feature.properties;
-                var tooltipContent = "<b>Area: " + properties.policeName;
-                // Bind the tooltip to the layer
-                layer.bindTooltip(tooltipContent).openTooltip();
-            });
-        }
-    }).addTo(map);
+// Define your style function
+function style(feature) {
+    return {
+        fillColor: 'green',
+        color: 'black',
+        weight: 1.5,
+        opacity: 0.2,
+    };
+}
 
-    L.Control.geocoder().addTo(map);
+function highlightFeature(e) {
+    var layer = e.target;
+    info.update(layer.feature.properties);
+
+    layer.setStyle({
+        weight: 8,
+        color: 'black',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    layer.bringToFront();
+}
+
+function resetHighlight(e) {
+    polygonJSON.resetStyle(e.target);
+    info.update();
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+
+    // Add a click event listener to each feature
+    layer.on('click', function (event) {
+        var properties = feature.properties;
+        var tooltipContent = "<b>Area: " + properties.policeName;
+        // Bind the tooltip to the layer
+        layer.bindTooltip(tooltipContent).openTooltip();
+    });
+}
+
+// Search Bar within Map
+L.Control.geocoder().addTo(map);
 
 
+// Side Info Panel 
+// REF: Leaflet Documentation (Leafletjs.com, 2023)
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Safety Rating</h4>' +  (props ?
+        '<b>' + props.policeName + '</b><br/>' 
+        + 'Crime: '+ props.crimeRating + '</b><br/>' 
+        + 'Reviews: '+ props.crimeRating + '</b><br/>' 
+        : 'Hover over a sector');
+};
+
+info.addTo(map);
 </script>
 
 <!--
@@ -246,11 +321,23 @@ Iteration 2:
 
 Iteration 3:
     The GIS Hub (2022). Leaflet Full Course || Leaflet Crash Course || Leaflet For Beginners || The GIS Hub. YouTube. Available at: https://www.youtube.com/watch?v=sVVuYUsfb7k [Accessed 7 Jan. 2024].
+    Leafletjs.com. (2023). Interactive Choropleth Map - Leaflet - a JavaScript library for interactive maps. [online] Available at: https://leafletjs.com/examples/choropleth/ [Accessed 21 Jan. 2024].
 
 ‌
-‌
-
 Images:
     Cork Header Background - Irish Mirror. (2022). Cork claims ‘fittest place’ crown across UK and Ireland. [online] Irish Mirror. Available at: https://www.irishmirror.ie/news/irish-news/health-news/cork-claims-fittest-place-crown-28107536 [Accessed 23 Nov. 2023].
+
+    
+// Search Bar outisde of map
+// NOT WORKING********
+var searchControl = L.control.search({
+    layer: polygonJSON,
+    propertyName: 'policeName',
+    marker: false,
+    moveToLocation: function (latlng, title, map) {
+        // This function is called when a search result is selected
+        map.setView(latlng, 14); // You can adjust the zoom level
+    }
+});
 
 ‌-->
