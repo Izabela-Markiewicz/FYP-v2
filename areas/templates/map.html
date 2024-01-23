@@ -117,8 +117,8 @@
                     <!-- Right: Location Name -->
                     <div class="col-lg-6 order-lg-1">
                         <div class="p-5" style="text-align:center">
-                            <h3 class="display-4">Location Name</h3>
-                            <h4>County, Country, Placeholder</h4>
+                            <h3 class="display-4" id='location-name'>Cork City</h3>
+                            <h4>Co. Cork, Ireland</h4>
                         </div>
                     </div>
 
@@ -207,6 +207,12 @@
 
     </body>
 </html>
+{% comment  %}
+////////////////////////////////////////////////////////////////////////////////
+                              JavaScript
+////////////////////////////////////////////////////////////////////////////////
+{% endcomment %}
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet-ajax/dist/leaflet.ajax.min.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
@@ -223,9 +229,8 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         });
         osm.addTo(map);
-    
-    // Adding Cork divisions from GeoJSON  
-   // Adding Cork divisions from GeoJSON  
+     
+// Adding Cork divisions from GeoJSON  
 var polygonJSON = L.geoJSON.ajax(" {% static 'data/CorkDivisions.geojson' %} ", {
     style: style,  // Add the style function here
     onEachFeature: onEachFeature
@@ -253,6 +258,14 @@ function highlightFeature(e) {
     });
 
     layer.bringToFront();
+
+    // Create the tooltip content
+    var properties = layer.feature.properties;
+    var tooltipContent = "<b>Area: " + properties.policeName + "</b>";
+   
+    // Bind the tooltip to the layer and open it
+    layer.bindTooltip(tooltipContent).openTooltip();
+
 }
 
 function resetHighlight(e) {
@@ -268,20 +281,97 @@ function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: zoomToFeature
-    });
-
-    // Add a click event listener to each feature
-    layer.on('click', function (event) {
-        var properties = feature.properties;
-        var tooltipContent = "<b>Area: " + properties.policeName;
-        // Bind the tooltip to the layer
-        layer.bindTooltip(tooltipContent).openTooltip();
+        click: function(e) {
+            // Remove the existing marker
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+                currentMarker = null;
+            }
+            // Update the location name
+            updateLocationName(feature.properties.policeName);
+            
+            // Zoom to the feature
+            zoomToFeature(e);
+        }
     });
 }
 
 // Search Bar within Map
-L.Control.geocoder().addTo(map);
+// L.Control.geocoder().addTo(map);
+
+// Searched Location shows on HTML page
+// REF: ChatGPT 
+var currentMarker = null; // Variable to store the current marker - stops duplicate markers
+
+// Initialize the geocoder control
+var geocoder = L.Control.geocoder({ 
+    defaultMarkGeocode: false
+})
+    .on('markgeocode', function(e) {
+        var latlng = e.geocode.center;
+        var found = false;
+
+        // Loop through each feature in your GeoJSON layer
+        polygonJSON.eachLayer(function(layer) {
+            if (isMarkerInsidePolygon(latlng, layer)) {
+                updateLocationName(layer.feature.properties.policeName);
+                found = true;
+            }
+        });
+
+        if (!found) {
+            updateLocationName("This location is currently not supported"); // Message if searched location not inside Cork City 
+        }
+
+        // Remove the previous marker if it exists
+        if (currentMarker) {
+            map.removeLayer(currentMarker);
+        }
+        
+        // Add the new marker and store it in the currentMarker variable
+        currentMarker = L.marker(latlng).addTo(map).bindPopup(e.geocode.name).openPopup();
+    })
+    .addTo(map);
+
+// Check if marker is inside a polygon
+// REF: ChatGPT 
+function isMarkerInsidePolygon(marker, poly) {
+    var inside = false;
+    var x = marker.lat, y = marker.lng;
+    for (var ii=0;ii<poly.getLatLngs().length;ii++){
+        var polyPoints = poly.getLatLngs()[ii];
+        for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+            var xi = polyPoints[i].lat, yi = polyPoints[i].lng;
+            var xj = polyPoints[j].lat, yj = polyPoints[j].lng;
+
+            var intersect = ((yi > y) != (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+    }
+
+    return inside;
+};
+
+// Search Fucntion in Map 
+// REF: ChatGPT 
+var searchControl = new L.Control.Search({
+    layer: polygonJSON,
+    propertyName: 'policeName',
+    marker: false,
+    moveToLocation: function(latlng, title, map) {
+        // map.fitBounds( latlng.layer.getBounds() );
+        var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+        map.setView(latlng, zoom); // access the zoom
+    }
+});
+
+map.addControl(searchControl);
+
+// Function to update the location name in HTML
+function updateLocationName(name) {
+    document.getElementById('location-name').textContent = name;
+}
 
 
 // Side Info Panel 
@@ -304,6 +394,9 @@ info.update = function (props) {
 };
 
 info.addTo(map);
+
+
+
 </script>
 
 <!--
