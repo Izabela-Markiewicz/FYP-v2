@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import CrimeRecord
 
 # Requests to dispaly html pages
 
@@ -11,7 +12,7 @@ def show_map(request):
     # Iteration 3:
 
     # Calculation Testing:
-    CrimeAvg = (5+3) / 2
+    CrimeAvg = 46+3
 
     # Define your variable here
     my_variable = int(CrimeAvg)
@@ -20,15 +21,10 @@ def show_map(request):
 
     # Pass the variable to the template context
     context = {'my_variable': my_variable}
-    return render(request, 'map.html', context) # Iteration 1
 
+    # Iteration 1:
+    return render(request, 'map.html', context) 
 
-def show_crime(request):
- # Get the value of 'policeName' from the session if it was stored there
-    policeNameTest = request.session.get('clicked_police_name', '')
-
-    context = {'policeNameTest': policeNameTest}
-    return render(request, 'map.html', context)
 
 # Landing Page
 def landing_page(request):

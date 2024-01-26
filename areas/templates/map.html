@@ -126,22 +126,8 @@
             </div>
         </section>
 
-        <!-- Iteration 2: -->
-        <!-- Google Map 
-        <section id="scroll">                     
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center">              
-                    < Google Maps Embedded-->
-                    <!-- REF: Embedded Maps Setup (Google for Developers, 2023) -->
-                    <!--
-                    <iframe width="90%" height="500" style="border:0" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?q=cork&key=AIzaSyD4jbWtCYkJyyvYxwUeVLpJShFO7SMP4BY"></iframe>           
-                </div>
-            </div>         
-        </section>
-    -->
-
         <!-- Iteration 3: -->
-        <!-- LeafLet Map   -->
+        <!-- LEAFLET MAP   -->
         <section>                     
             <div class="container px-5">
                 <div id= "map"class="row gx-5 align-items-center"></div>
@@ -149,11 +135,24 @@
         </section>
 
         <!-- Iteration 2 -->    
-        <!-- Area Analytics-->
+        <!-- AREA ANALYTICS-->
         <section id="area-analytics">
             <div class="container px-5">
-                <div class="row align-items-center"> 
 
+                <!-- Iteration 4  - List crime vs tiles?   
+                <!CRIME STATS 
+                <!REF: Styled List (Bootstrap, 2024) 
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" id='Assault'>XX Assaults</li>
+                    <li class="list-group-item">XX Assaults</li>
+                    <li class="list-group-item">XX Assaults</li>
+                    <li class="list-group-item">XX Assaults</li>
+                    <li class="list-group-item">XX Assaults</li>
+                </ul>
+                  
+            -->
+                <!-- Analytics Tiles -->
+                <div class="row align-items-center"> 
                         <!-- Metric 1 -->
                         <div class="col">
                             <div class="p-5" style="text-align:center">
@@ -166,8 +165,8 @@
                         <!-- Metric 2 -->
                         <div class="col">
                             <div class="p-5" style="text-align:center">
-                                <h2 class="display-4">123</h2>
-                                <h3>Physical Assaults</h3>
+                                <h2 class="display-4">34</h2>
+                                <h3>Assaults</h3>
                                 <h6>In 2022</h6>
                             </div>
                         </div>
@@ -176,7 +175,7 @@
                         <!-- Metric 3 -->
                         <div class="col">
                             <div class="p-5" style="text-align:center">
-                                <h2 class="display-4">123</h2>
+                                <h2 class="display-4">26</h2>
                                 <h3>Unsocial Behaviour</h3>
                                 <h6>In 2022</h6>
                             </div>
@@ -185,8 +184,8 @@
                         <!-- Metric 4 -->
                         <div class="col">
                             <div class="p-5" style="text-align:center">
-                                <h2 class="display-4">123</h2>
-                                <h3>Sexual Assaults</h3>
+                                <h2 class="display-4">56</h2>
+                                <h3>Drug Related</h3>
                                 <h6>In 2022</h6>
                             </div>
                         </div>   
@@ -220,15 +219,16 @@
 
 {% comment  %} <script src="./data/CorkDivisions.js"><</script> might be needed at some point {% endcomment %}
 <script>
-    // Iteration 3
-    // REF: Full Leaflet Tutorial - Youtube [57 mins] (The GIS Hub, 2022)
-    // Showing Leaflet Base Map
-    var map = L.map('map').setView([51.898, -8.4788], 12.5);
 
-    var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
-        osm.addTo(map);
+// Iteration 3
+// REF: Full Leaflet Tutorial - Youtube [57 mins] (The GIS Hub, 2022)
+// Showing Leaflet Base Map
+var map = L.map('map').setView([51.898, -8.4788], 12.5);
+
+var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    osm.addTo(map);
      
 // Adding Cork divisions from GeoJSON  
 var polygonJSON = L.geoJSON.ajax(" {% static 'data/CorkDivisions.geojson' %} ", {
@@ -236,16 +236,33 @@ var polygonJSON = L.geoJSON.ajax(" {% static 'data/CorkDivisions.geojson' %} ", 
     onEachFeature: onEachFeature
 }).addTo(map);
 
-// Define your style function
+// Iteration 3
+// COLOR GRADIENT TO SECTOR BASED ON SAFETY RATING
+// REF: Leaflet Documentation (Leafletjs.com, 2023) 
+function getColor(crimeRating) {
+    return crimeRating < 1 ? '#ed0000' :
+            crimeRating < 2 ? '#f75200' :
+            crimeRating < 3 ? '#ff9100' :
+            crimeRating < 4 ? '#ecff5e' :
+            crimeRating < 5 ? '#87d904' :
+            crimeRating < 6 ? '#17ba02' :
+                      '#dbdbdb';
+}
+// Adjusting style of sectors
 function style(feature) {
     return {
-        fillColor: 'green',
+        fillColor: getColor(feature.properties.crimeRating),
         color: 'black',
         weight: 1.5,
-        opacity: 0.2,
+        opacity: 0.25,
+        fillOpacity: 0.45,
     };
 }
 
+// Iteration 3
+// HOVER/CLICK SECTOR ANIMATION + TOOLTIP
+// REF: Full Leaflet Tutorial - Youtube [57 mins] (The GIS Hub, 2022), aslo in 
+// Hovering highlights sector 
 function highlightFeature(e) {
     var layer = e.target;
     info.update(layer.feature.properties);
@@ -261,22 +278,24 @@ function highlightFeature(e) {
 
     // Create the tooltip content
     var properties = layer.feature.properties;
-    var tooltipContent = "<b>Area: " + properties.policeName + "</b>";
-   
+    var tooltipContent = "<b>Area: " + properties.policeName + "</b>" +" <br>" 
+        + "Safety Rating: " + properties.crimeRating + "/5";
     // Bind the tooltip to the layer and open it
     layer.bindTooltip(tooltipContent).openTooltip();
-
 }
 
+// Un-hovering removes highlight from sector
 function resetHighlight(e) {
     polygonJSON.resetStyle(e.target);
     info.update();
 }
 
+// Clicking sector zooms to feature
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
 }
 
+// Live hover and click functionality
 function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
@@ -289,9 +308,10 @@ function onEachFeature(feature, layer) {
             }
             // Update the location name
             updateLocationName(feature.properties.policeName);
-            
+
             // Zoom to the feature
             zoomToFeature(e);
+     
         }
     });
 }
@@ -299,8 +319,9 @@ function onEachFeature(feature, layer) {
 // Search Bar within Map
 // L.Control.geocoder().addTo(map);
 
-// Searched Location shows on HTML page
-// REF: ChatGPT 
+// Iteration 3
+// PRINT SEARCHED ADDRESS AS HTML
+// REF: ChatGPT - "I'm using leaflet js map and my own created geojson to create polygons/sectors on a map. Depending on what address is searched in the search bar inside the leaflet search bar, i want to change the HTML text 'Location Name' to the corresponding GeoJson  polygons's 'policeName' property if the marker/address is within that polygon boundary i created. Also i don't want it to make duplaicate markers. Here is my exisitng code: x"
 var currentMarker = null; // Variable to store the current marker - stops duplicate markers
 
 // Initialize the geocoder control
@@ -334,7 +355,6 @@ var geocoder = L.Control.geocoder({
     .addTo(map);
 
 // Check if marker is inside a polygon
-// REF: ChatGPT 
 function isMarkerInsidePolygon(marker, poly) {
     var inside = false;
     var x = marker.lat, y = marker.lng;
@@ -353,16 +373,18 @@ function isMarkerInsidePolygon(marker, poly) {
     return inside;
 };
 
-// Search Fucntion in Map 
-// REF: ChatGPT 
+// Iteration 3
+// MAP SEARCH FUNCTION 
+// REF: Full Leaflet Tutorial - Youtube [57 mins] (The GIS Hub, 2022) + ChatGPT to refine ("I'm using leaflet js map and my own created geojson to create polygons/sectors on a map. Depending on what address is searched in the search bar inside the leaflet search bar, i want to change the HTML text 'Location Name' to the corresponding GeoJson  polygons's 'policeName' property if the marker/address is within that polygon boundary i created. Here is my exisitng code: x")
 var searchControl = new L.Control.Search({
     layer: polygonJSON,
     propertyName: 'policeName',
     marker: false,
     moveToLocation: function(latlng, title, map) {
-        // map.fitBounds( latlng.layer.getBounds() );
+        map.fitBounds( latlng.layer.getBounds() );
         var zoom = map.getBoundsZoom(latlng.layer.getBounds());
         map.setView(latlng, zoom); // access the zoom
+        
     }
 });
 
@@ -374,8 +396,9 @@ function updateLocationName(name) {
 }
 
 
-// Side Info Panel 
-// REF: Leaflet Documentation (Leafletjs.com, 2023)
+// Iteration 3
+// SIDE INFO PANEL
+// REF: Leaflet Documentation (Leafletjs.com, 2023) 
 var info = L.control();
 
 info.onAdd = function (map) {
@@ -383,21 +406,21 @@ info.onAdd = function (map) {
     this.update();
     return this._div;
 };
-
-// method that we will use to update the control based on feature properties passed
-info.update = function (props) {
+ 
+info.update = function (props) { // Update side panel based on hovered sector
     this._div.innerHTML = '<h4>Safety Rating</h4>' +  (props ?
         '<b>' + props.policeName + '</b><br/>' 
-        + 'Crime: '+ props.crimeRating + '</b><br/>' 
-        + 'Reviews: '+ props.crimeRating + '</b><br/>' 
+        + 'Safety Rating: '+ props.crimeRating + '</b><br/>' 
+     //   + 'Reviews: '+ props.crimeRating + '</b><br/>' - Next Section
         : 'Hover over a sector');
 };
 
 info.addTo(map);
 
 
-
 </script>
+
+
 
 <!--
 REFRERENCES:
@@ -415,22 +438,15 @@ Iteration 2:
 Iteration 3:
     The GIS Hub (2022). Leaflet Full Course || Leaflet Crash Course || Leaflet For Beginners || The GIS Hub. YouTube. Available at: https://www.youtube.com/watch?v=sVVuYUsfb7k [Accessed 7 Jan. 2024].
     Leafletjs.com. (2023). Interactive Choropleth Map - Leaflet - a JavaScript library for interactive maps. [online] Available at: https://leafletjs.com/examples/choropleth/ [Accessed 21 Jan. 2024].
+    ChatGPT - "I'm using leaflet js map and my own created geojson to create polygons/sectors on a map. Depending on what address is searched in the search bar inside the leaflet search bar, i want to change the HTML text 'Location Name' to the corresponding GeoJson  polygons's 'policeName' property if the marker/address is within that polygon boundary i created. Also i don't want it to make duplaicate markers. Here is my exisitng code: x"
+
+    Iteration 4:
+    Bootstrap (2024). List group. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/4.0/components/list-group/#flush [Accessed 25 Jan. 2024].    
 
 ‌
 Images:
     Cork Header Background - Irish Mirror. (2022). Cork claims ‘fittest place’ crown across UK and Ireland. [online] Irish Mirror. Available at: https://www.irishmirror.ie/news/irish-news/health-news/cork-claims-fittest-place-crown-28107536 [Accessed 23 Nov. 2023].
 
-    
-// Search Bar outisde of map
-// NOT WORKING********
-var searchControl = L.control.search({
-    layer: polygonJSON,
-    propertyName: 'policeName',
-    marker: false,
-    moveToLocation: function (latlng, title, map) {
-        // This function is called when a search result is selected
-        map.setView(latlng, 14); // You can adjust the zoom level
-    }
-});
+
 
 ‌-->
