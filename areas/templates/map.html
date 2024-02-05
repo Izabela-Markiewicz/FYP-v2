@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <!DOCTYPE html>
 
 <!-- Iteration 2-->
@@ -14,9 +15,7 @@
         <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Iteration 3: -->
-        <!-- Including Google Maps JavaScript API -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=geometry"></script>
+
 
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
@@ -33,6 +32,10 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
         <!-- Leaflet Search Plugin -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet-search/dist/leaflet-search.min.css" />  
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yEx1q6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
         <style>
             #map{
                 height: 500px;
@@ -193,6 +196,65 @@
             </div>
         </section>    
 
+        <!-- Iteration 4 --> 
+        <!-- CRIME STATS -->
+        <!-- REF: Styled Tables (Bootstrap, 2024) -->
+        <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] -->
+        <section>
+            <div class= 'container'>
+
+                {% block content %}
+
+                    <h1>Crime List</h1>
+
+                    <!-- Table with Crime Stats -->
+                    <table id="crime-table" class="table table-striped" >
+                        <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th>Crime Type</th>
+                            <th>Occurences in 2022</th>
+                        </tr>
+                    </thead>
+
+                  
+                        {% for CrimeRecord in crime_list %}
+                       
+                    <tbody>
+                        <tr>
+                            <td>{{ CrimeRecord.policeID }}</td>
+                            <td>{{ CrimeRecord.crimeType }}</td>
+                            <td>{{ CrimeRecord.value}}</td>
+                        </tr>
+                    </tbody>
+                    
+
+                      
+                        {% endfor %}
+                
+                        
+                    </table>
+
+                {% endblock %} 
+<!--{% if CrimeRecord.policeID == policeID %} -->
+         <!-- {% endif %} -->
+            </div>
+        </section>
+
+
+            <!-- Iteration 4 List Sample
+                <ul class="list-group list-group-flush">
+
+                    {% for CrimeRecord in crime_list %}   
+
+                    <li class="list-group-item">{{ CrimeRecord.crimeType }}</li>                
+                       
+                    {% endfor %}
+
+                  </ul>
+                -->
+
+
         <!-- Footer-->
         <footer class="py-5 bg-black">
             <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; Safe Explorer 2023</p></div>
@@ -294,6 +356,43 @@ function resetHighlight(e) {
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
 }
+/*
+function updateCrimeRecords(policeID) {
+    $.ajax({
+       // url: '/map?policeID=' + policeID, // Update with the correct URL
+        type: 'GET',
+        success: function(response) {
+            var table = $('#crime-table');
+            table.empty(); // Clear existing rows
+
+            // Add header row
+            table.append('<tr><th>Crime Type</th><th>Occurrences in 2022</th></tr>');
+
+            // Add new rows
+            response.crime_list.forEach(function(crimeRecord) {
+                table.append('<tr><td>' + crimeRecord.crimeType + '</td><td>' + crimeRecord.value + '</td></tr>');
+            });
+        },
+        error: function(error) {
+            console.log('Error:', error);
+        }
+    });
+}
+
+var crimeData = {{ crime_list | safe }};
+*/
+
+/*
+function showCrime(policeID) {
+    // Filter the data
+    var filteredData = crimeData.filter(function(record) {
+        return record.policeID === policeID;
+    });
+
+    // Update the table
+    updateCrimeTable(filteredData);
+}
+*/
 
 // Live hover and click functionality
 function onEachFeature(feature, layer) {
@@ -306,12 +405,14 @@ function onEachFeature(feature, layer) {
                 map.removeLayer(currentMarker);
                 currentMarker = null;
             }
+
             // Update the location name
             updateLocationName(feature.properties.policeName);
 
             // Zoom to the feature
             zoomToFeature(e);
-     
+
+            filterCrime(feature.properties.policeID);
         }
     });
 }
@@ -381,7 +482,7 @@ var searchControl = new L.Control.Search({
     propertyName: 'policeName',
     marker: false,
     moveToLocation: function(latlng, title, map) {
-        map.fitBounds( latlng.layer.getBounds() );
+        // map.fitBounds( latlng.layer.getBounds() );
         var zoom = map.getBoundsZoom(latlng.layer.getBounds());
         map.setView(latlng, zoom); // access the zoom
         
@@ -395,6 +496,30 @@ function updateLocationName(name) {
     document.getElementById('location-name').textContent = name;
 }
 
+function filterCrime(ID) {
+    document.getElementById('Robberies').textContent = ID;
+    var locationFilter = ID
+    console.log(ID)
+    console.log(crime_list)
+    // updateCrimeTable(locationFilter);
+    
+}
+
+function updateCrimeTable(locationFilter) {
+    var tableBody = document.getElementById('crime-table').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    // Iterate over crime_list and add rows for matching policeID
+    crime_list.forEach(function(CrimeRecord) {
+        if (CrimeRecord.policeID == locationFilter) {
+            var row = tableBody.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.textContent = CrimeRecord.crimeType;
+            cell2.textContent = CrimeRecord.value;
+        }
+    });
+}
 
 // Iteration 3
 // SIDE INFO PANEL
@@ -440,9 +565,11 @@ Iteration 3:
     Leafletjs.com. (2023). Interactive Choropleth Map - Leaflet - a JavaScript library for interactive maps. [online] Available at: https://leafletjs.com/examples/choropleth/ [Accessed 21 Jan. 2024].
     ChatGPT - "I'm using leaflet js map and my own created geojson to create polygons/sectors on a map. Depending on what address is searched in the search bar inside the leaflet search bar, i want to change the HTML text 'Location Name' to the corresponding GeoJson  polygons's 'policeName' property if the marker/address is within that polygon boundary i created. Also i don't want it to make duplaicate markers. Here is my exisitng code: x"
 
-    Iteration 4:
-    Bootstrap (2024). List group. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/4.0/components/list-group/#flush [Accessed 25 Jan. 2024].    
+Iteration 4:
+    Codemy.com (2021). Fetch Data From a Database And Output To A Webpage - Django Wednesdays #5. YouTube. Available at: https://www.youtube.com/watch?v=H3joYTIRqKk [Accessed 4 Feb. 2024].
+    Bootstrap (2024). Tables. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/5.0/content/tables/ [Accessed 4 Feb. 2024].
 
+‌
 ‌
 Images:
     Cork Header Background - Irish Mirror. (2022). Cork claims ‘fittest place’ crown across UK and Ireland. [online] Irish Mirror. Available at: https://www.irishmirror.ie/news/irish-news/health-news/cork-claims-fittest-place-crown-28107536 [Accessed 23 Nov. 2023].

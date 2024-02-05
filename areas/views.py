@@ -3,27 +3,24 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import CrimeRecord
+from django.core.serializers import serialize
 
 # Requests to dispaly html pages
 
-
+# Iteration 1: (Basic Rendering)
 # Map Page
 def show_map(request):
-    # Iteration 3:
+    # Iteration 4:
+    # PASSSING CRIME RECORDS FROM DB (Codemy.com, 2021)
 
-    # Calculation Testing:
-    CrimeAvg = 46+3
 
-    # Define your variable here
-    my_variable = int(CrimeAvg)
+    crime_list = CrimeRecord.objects.all()
+    
 
-    print(my_variable)  # Check in the console
+    return render(request, 'map.html',              
+        {'crime_list': crime_list}) # Can now reference crime records from DB in map.html
 
-    # Pass the variable to the template context
-    context = {'my_variable': my_variable}
 
-    # Iteration 1:
-    return render(request, 'map.html', context) 
 
 
 # Landing Page
@@ -33,6 +30,10 @@ def landing_page(request):
 
 """
 REFERENCES:
+
+Iteration 4:
+    Codemy.com (2021). Fetch Data From a Database And Output To A Webpage - Django Wednesdays #5. YouTube. Available at: https://www.youtube.com/watch?v=H3joYTIRqKk [Accessed 4 Feb. 2024].
+
 
 
 """

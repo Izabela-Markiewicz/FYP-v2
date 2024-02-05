@@ -33,3 +33,5 @@ Iteration 3:
   Leafletjs.com. (2023). Interactive Choropleth Map - Leaflet - a JavaScript library for interactive maps. [online] Available at: https://leafletjs.com/examples/choropleth/ [Accessed 21 Jan. 2024].
   ChatGPT - "I'm using leaflet js map and my own created geojson to create polygons/sectors on a map. Depending on what address is searched in the search bar inside the leaflet search bar, i want to change the HTML text 'Location Name' to the corresponding GeoJson  polygons's 'policeName' property if the marker/address is within that polygon boundary i created. Also i don't want it to make duplaicate markers. Here is my exisitng code: x"  
 ‌
+Iteration 4:
+  Codemy.com (2021). Fetch Data From a Database And Output To A Webpage - Django Wednesdays #5. YouTube. Available at: https://www.youtube.com/watch?v=H3joYTIRqKk [Accessed 4 Feb. 2024].
