@@ -137,23 +137,38 @@
             </div>         
         </section>
 
+  
+            <section id="search-bar">
+                <div class="container px-5" style="padding-top:30px">
+                    <div class="row gx-5 align-items-center"> 
+    
+                        <!-- Left: Search Bar-->
+                        <!-- REF: Search Bar (MD Bootstrap, 2023) --> 
+                        <div class="col-lg-6 order-lg-2">                       
+                            <div class="input-group rounded container px-5">
+                                <button type="button" class="btn btn-primary btn-lg">See Crime Data</button>
+                
+                            </div>
+                             
+                        </div>
+    
+                        <!-- Right: Location Name -->
+                        <div class="col-lg-6 order-lg-1">
+                            <div class="p-5" style="text-align:center">
+                                <button type="button" class="btn btn-primary btn-lg">See User Reviews</button>
+                            </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </section>
+
+
         <!-- Iteration 2 -->    
         <!-- AREA ANALYTICS-->
         <section id="area-analytics">
             <div class="container px-5">
 
-                <!-- Iteration 4  - List crime vs tiles?   
-                <!CRIME STATS 
-                <!REF: Styled List (Bootstrap, 2024) 
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item" id='Assault'>XX Assaults</li>
-                    <li class="list-group-item">XX Assaults</li>
-                    <li class="list-group-item">XX Assaults</li>
-                    <li class="list-group-item">XX Assaults</li>
-                    <li class="list-group-item">XX Assaults</li>
-                </ul>
-                  
-            -->
                 <!-- Analytics Tiles -->
                 <div class="row align-items-center"> 
                         <!-- Metric 1 -->
@@ -219,17 +234,17 @@
 
                   
                         {% for CrimeRecord in crime_list %}
-                       
+                        {% if CrimeRecord.policeID_id == locationFilter %}
                     <tbody>
                         <tr>
-                            <td>{{ CrimeRecord.policeID }}</td>
+                            <td>{{ CrimeRecord.policeID.policeName }}</td>
                             <td>{{ CrimeRecord.crimeType }}</td>
                             <td>{{ CrimeRecord.value}}</td>
                         </tr>
                     </tbody>
                     
 
-                      
+                        {% endif %}
                         {% endfor %}
                 
                         
@@ -500,26 +515,10 @@ function filterCrime(ID) {
     document.getElementById('Robberies').textContent = ID;
     var locationFilter = ID
     console.log(ID)
-    console.log(crime_list)
-    // updateCrimeTable(locationFilter);
+   // updateCrimeTable(locationFilter);
     
 }
 
-function updateCrimeTable(locationFilter) {
-    var tableBody = document.getElementById('crime-table').getElementsByTagName('tbody')[0];
-    tableBody.innerHTML = ''; // Clear existing rows
-
-    // Iterate over crime_list and add rows for matching policeID
-    crime_list.forEach(function(CrimeRecord) {
-        if (CrimeRecord.policeID == locationFilter) {
-            var row = tableBody.insertRow();
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            cell1.textContent = CrimeRecord.crimeType;
-            cell2.textContent = CrimeRecord.value;
-        }
-    });
-}
 
 // Iteration 3
 // SIDE INFO PANEL
