@@ -1,5 +1,7 @@
 from django.db import models
 from areas.models import Area
+from django.utils import timezone
+from datetime import datetime
 
 # Iteration 1:
 # CREATING MODELS for all user-related objects
@@ -27,6 +29,8 @@ class Review(models.Model):
     reviewText = models.CharField(max_length=300)
     reviewType = models.CharField(max_length=255)
     feelRating = models.DecimalField(max_digits=5, decimal_places=2)
+    publishDate = models.DateTimeField(default=timezone.now)
+    
 
     
     

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import CrimeRecord
+from .models import CrimeRecord, PoliceDivision
 from django.core.serializers import serialize
 
 # Requests to dispaly html pages
@@ -32,6 +32,7 @@ def show_crime(request):
     # Iteration 4:
     # PASSSING CRIME RECORDS FROM DB (Codemy.com, 2021)
     crime_list = CrimeRecord.objects.all()
+    police_list = PoliceDivision.objects.all()
 
     global locationFilter
 
@@ -40,6 +41,7 @@ def show_crime(request):
     sector_like_query = request.GET.get('sector_like')
     crime_type_query = request.GET.get('crime_type')
     policeID_query = request.GET.get('police_ID')
+    dropdown_sectors = request.GET.get('dropdown_sectors')
 
     if is_valid_queryparam(sector_like_query):
         crime_list = crime_list.filter(policeID__policeName__icontains=sector_like_query)
@@ -48,12 +50,14 @@ def show_crime(request):
         crime_list = crime_list.filter(crimeType__icontains=crime_type_query) # check that title contains query that you put in
 
     if is_valid_queryparam(policeID_query):
-            crime_list = crime_list.filter(policeID__exact=policeID_query) # check that title contains query that you put in
+        crime_list = crime_list.filter(policeID__exact=policeID_query) # check that title contains query that you put in
 
-
+    if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Choose..':
+        crime_list = crime_list.filter(policeID__policeName__icontains=dropdown_sectors) # check that title contains query that you put in
     
     context = {
-        'crime_list':crime_list,
+        'crime_list' : crime_list,
+        'police_list' : police_list
 
     }
     return render(request, 'crime_stats.html', context) # Can now reference crime records from DB in map.html

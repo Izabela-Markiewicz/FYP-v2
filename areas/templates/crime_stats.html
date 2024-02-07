@@ -99,22 +99,17 @@
 
               
                     <div class="col-md-4">
-                        <label for="sector" class="form-label">Sector Name</label>
-                        <select id="sector" class="form-select" name="sector">
+                        <label for="dropdown_sectors" class="form-label">Sector Name</label>
+                        <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
                             <option selected>Choose...</option>
-                            <option>...</option>
+
+                            {% for PoliceDivision in police_list %}
+                            <option value="{{ PoliceDivision.policeName}}"> {{ PoliceDivision.policeName}} </option>
+                            {% endfor %}
+
                         </select>
                     </div>
                 
-
-                    <div class="col-12">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="gridCheck">
-                            <label class="form-check-label" for="gridCheck">
-                            Check me out
-                            </label>
-                        </div>
-                    </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
@@ -133,10 +128,10 @@
             <div class="container px-5" style="padding-top:30px">
                 <div class="row gx-5 align-items-center"> 
 
-                    <!-- Left: Search Bar-->
-                    <!-- REF: Search Bar (MD Bootstrap, 2023) --> 
-                    <div class="col-lg-6 order-lg-2">                       
-                        <div class="btn-group">
+        
+                    <!-- Right: Dropdown-->
+                    <div class="col-lg-6 order-lg-2 flex-column align-items-center">                       
+                        <div class="btn-group align-items-center">
                             <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Choose Location
                             </button>
@@ -144,7 +139,14 @@
                               <li><a class="dropdown-item" href="#">Bridewell</a></li>
                             </ul>
                         </div>
+                        <div class="col-12 mt-3 align-items-center">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
                     </div>
+                 
+
+
+
 
                     <!-- Right: Location Name -->
                     <div class="col-lg-6 order-lg-1">
