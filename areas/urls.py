@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
- #from .views import get_crime_data  # Ensure this is correctly pointing to your views.py
+
 
 
 # Setting views/pages
@@ -8,6 +8,8 @@ urlpatterns = [
     path('map/', views.show_map), # Iteration 1
     #REF: Change landing page (9CV9 HR, 2019)
     path('', views.landing_page, name='landing_page'), # Iteration 1
+    path('crime/', views.show_crime, name='crime_page'), # Iteration 1
+
 ]
 
 """

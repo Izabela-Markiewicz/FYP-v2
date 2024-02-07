@@ -34,7 +34,7 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet-search/dist/leaflet-search.min.css" />  
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yEx1q6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
+        <script src="jquery-3.7.1.min.js"></script>
 
         <style>
             #map{
@@ -146,7 +146,7 @@
                         <!-- REF: Search Bar (MD Bootstrap, 2023) --> 
                         <div class="col-lg-6 order-lg-2">                       
                             <div class="input-group rounded container px-5">
-                                <button type="button" class="btn btn-primary btn-lg">See Crime Data</button>
+                                <button onclick="filterCrime('location_id')" type="button" class="btn btn-primary btn-lg" href="{% url 'crime_page' %}" >See Crime Data</button>
                 
                             </div>
                              
@@ -155,11 +155,59 @@
                         <!-- Right: Location Name -->
                         <div class="col-lg-6 order-lg-1">
                             <div class="p-5" style="text-align:center">
-                                <button type="button" class="btn btn-primary btn-lg">See User Reviews</button>
+                                <button onclick="filterCrime('location_id')" type="button" class="btn btn-primary btn-lg">See User Reviews</button>
                             </div>
                         </div>
     
                     </div>
+                </div>
+            </section>
+
+            <section>
+                <div class= 'container'>
+    
+                    {% block table %}
+    
+                    <h1>Crime List</h1>
+    
+                <!-- Table with Crime Stats -->
+                        <table id="crime-table" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Crime Type</th>
+                                    <th>Occurrences in 2022</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Table rows will be dynamically generated here -->
+                            </tbody>
+                        </table>
+                        
+                        <script>
+                            var crimeList = JSON.parse('{{ crime_list_json|escapejs }}');
+                            
+                            // Function to update the HTML table with new data
+                            function updateCrimeTable(locationFilter) {
+                                var tableBody = document.querySelector('#crime-table tbody');
+                                tableBody.innerHTML = ''; // Clear existing table rows
+                                
+                                // Loop through the crimeList and add rows to the table
+                                crimeList.forEach(function(crimeRecord) {
+                                    // Only add row if locationFilter matches the policeID
+                                    if (crimeRecord.policeID_id == locationFilter) {
+                                        var row = tableBody.insertRow();
+                                        row.innerHTML = '<td>' + crimeRecord.policeID.policeName + '</td>' +
+                                                        '<td>' + crimeRecord.crimeType + '</td>' +
+                                                        '<td>' + crimeRecord.value + '</td>';
+                                    }
+                                });
+                            }
+
+
+                        </script>
+                    {% endblock %} 
+
                 </div>
             </section>
 
@@ -230,7 +278,7 @@
                             <th>Crime Type</th>
                             <th>Occurences in 2022</th>
                         </tr>
-                    </thead>
+                        </thead>
 
                   
                         {% for CrimeRecord in crime_list %}
@@ -513,12 +561,18 @@ function updateLocationName(name) {
 
 function filterCrime(ID) {
     document.getElementById('Robberies').textContent = ID;
-    var locationFilter = ID
+    var locationFilter = ID;
     console.log(ID)
-   // updateCrimeTable(locationFilter);
-    
+    // updateCrimeTable(newCrimeData);
+    updateCrimeTable(locationFilter);
 }
 
+// Example usage:
+var newCrimeData = [
+    { location: 'Location 1', type: 'Type 1', value: 10 },
+    { location: 'Location 2', type: 'Type 2', value: 5 },
+    // Add more data as needed
+];
 
 // Iteration 3
 // SIDE INFO PANEL
