@@ -104,21 +104,33 @@
         <section id="search-bar">
             <div class="container px-5" style="padding-top:30px">
                 <div class="row gx-5 align-items-center"> 
+ 
+                   
 
-                    <!-- Left: Search Bar-->
-                    <!-- REF: Search Bar (MD Bootstrap, 2023) --> 
-                    <div class="col-lg-6 order-lg-2">                       
-                        <div class="input-group rounded container px-5">
-                            <input id="external-search" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <span  class="input-group-text border-0" id="search-addon">
-                            <i class="fas fa-search"></i>
-                            </span>
+                        <!-- Left: Search Bar-->
+                        <div class="col-lg-6 order-lg-1 d-flex align-items-center justify-content-center">
+                            <div class="col-md-6 text-center">
+                                <h3 class="form-label">Area Search</h3>
+                                
+                                <form>
+                                <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
+                                    <option selected>Choose...</option>
+
+                                    <!-- Show all unique values of police deparments, ie sectors-->
+                                    {% for PoliceDivision in police_list %}
+                                    <option value="{{ PoliceDivision.policeName }}">{{ PoliceDivision.policeName }}</option>
+                                    {% endfor %}
+
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-block mt-3" style="width: 300px">Search</button>
+                            </form>
+                            </div>
                         </div>
-                         
-                    </div>
+
+                 
 
                     <!-- Right: Location Name -->
-                    <div class="col-lg-6 order-lg-1">
+                    <div class="col-lg-6 order-lg-2">
                         <div class="p-5" style="text-align:center">
                             <h3 class="display-4" id='location-name'>Cork City</h3>
                             <h4>Co. Cork, Ireland</h4>
@@ -129,6 +141,7 @@
             </div>
         </section>
 
+ 
         <!-- Iteration 3: -->
         <!-- LEAFLET MAP   -->
         <section>                     
@@ -160,6 +173,7 @@
 
         <!-- Iteration 4: -->
         <!-- Filters for Reviews -->
+                <!-- Filters for Reviews
         <section>
         	<div class='container px-5' style="padding-top:30px">
 
@@ -216,10 +230,12 @@
             </div>
         </section>
 
+                            -->
+
         <hr />
 
         
- <!-- Iteration 4 --> 
+        <!-- Iteration 4 --> 
         <!-- CRIME STATS -->
         <!-- REF: Styled Tables (Bootstrap, 2024) -->
         <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] -->
@@ -271,6 +287,7 @@
             </div>
         </section>
    
+        <hr />
 
         <!-- Iteration 4 --> 
         <!-- CRIME STATS -->
