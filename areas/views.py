@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import CrimeRecord, PoliceDivision
+from users.models import User, Review
 from django.core.serializers import serialize
 
 # Requests to dispaly html pages
@@ -12,11 +13,40 @@ from django.core.serializers import serialize
 def show_map(request):
     # Iteration 4:
     # PASSSING CRIME RECORDS FROM DB (Codemy.com, 2021)
-    crime_list = CrimeRecord.objects.all()
+  
     global locationFilter
     
-    return render(request, 'map.html',              
-        {'crime_list': crime_list}) # Can now reference crime records from DB in map.html
+    review_list = Review.objects.all()
+    police_list = PoliceDivision.objects.all()
+    crime_list = CrimeRecord.objects.all()
+
+    global locationFilter
+
+    # Iteration 4
+    # REF: Filtering form Django (Freire, 2019) Youtube Video Playlist
+    sector_like_query = request.GET.get('sector_like')
+    policeID_query = request.GET.get('police_ID')
+    dropdown_sectors = request.GET.get('dropdown_sectors')
+
+    if is_valid_queryparam(sector_like_query):
+        review_list = review_list.filter(policeID__policeName__icontains=sector_like_query)
+        crime_list = crime_list.filter(policeID__policeName__icontains=sector_like_query)
+
+    if is_valid_queryparam(policeID_query):
+        review_list = review_list.filter(policeID__exact=policeID_query) # check that title contains query that you put in
+        crime_list = crime_list.filter(policeID__exact=policeID_query)
+
+    if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Choose..':
+        review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors) # check that title contains query that you put in
+        crime_list = crime_list.filter(policeID__policeName__icontains=dropdown_sectors)
+
+    context = {
+        'review_list' : review_list,
+        'police_list' : police_list,
+        'crime_list': crime_list
+    }
+
+    return render(request, 'map.html', context)             
 
 
 # Landing Page
@@ -60,9 +90,37 @@ def show_crime(request):
         'police_list' : police_list
 
     }
-    return render(request, 'crime_stats.html', context) # Can now reference crime records from DB in map.html
+    return render(request, 'crime_stats.html', context) # Can now reference crime records from DB in html
 
+def show_reviews(request):
+    # Iteration 4:
+    # PASSSING CRIME RECORDS FROM DB (Codemy.com, 2021)
+    review_list = Review.objects.all()
+    police_list = PoliceDivision.objects.all()
 
+    global locationFilter
+
+    # Iteration 4
+    # REF: Filtering form Django (Freire, 2019) Youtube Video Playlist
+    sector_like_query = request.GET.get('sector_like')
+    policeID_query = request.GET.get('police_ID')
+    dropdown_sectors = request.GET.get('dropdown_sectors')
+
+    if is_valid_queryparam(sector_like_query):
+        review_list = review_list.filter(policeID__policeName__icontains=sector_like_query)
+
+    if is_valid_queryparam(policeID_query):
+        review_list = review_list.filter(policeID__exact=policeID_query) # check that title contains query that you put in
+
+    if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Choose..':
+        review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors) # check that title contains query that you put in
+    
+    context = {
+        'review_list' : review_list,
+        'police_list' : police_list
+
+    }
+    return render(request, 'map.html', context) # Can now reference crime records from DB in html
 
 """
 REFERENCES:

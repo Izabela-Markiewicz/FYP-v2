@@ -78,16 +78,6 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="inputEmail4" class="form-label">Crime Type</label>
-                        <div class="input-group">
-                            <input type="search" class="form-control" placeholder="Crime Type..."id="crimeType-search" name="crime_type">
-                            <span class="input-group-text bg-transaprent">
-                                    <i class="fa fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
                         <label for="inputEmail4" class="form-label">PoliceID</label>
                         <div class="input-group">
                             <input type="number" min=1 max=12 class="form-control" placeholder="PoliceID..."id="policeID-search" name="police_ID">
@@ -104,8 +94,10 @@
                             <option selected>Choose...</option>
 
                             {% for PoliceDivision in police_list %}
+
                             <option value="{{ PoliceDivision.policeName}}"> {{ PoliceDivision.policeName}} </option>
                             {% endfor %}
+
 
                         </select>
                     </div>
@@ -241,7 +233,9 @@
 REFRERENCES:
     Iteration 4:
         Freire, M. (2019). Build a dynamic filtering form with Django // 5 - Filtering by search. YouTube. Available at: https://www.youtube.com/watch?v=vU0VeFN-abU [Accessed 7 Feb. 2024].
-
+        Codemy.com (2021). Fetch Data From a Database And Output To A Webpage - Django Wednesdays #5. YouTube. Available at: https://www.youtube.com/watch?v=H3joYTIRqKk [Accessed 4 Feb. 2024].    
+    Bootstrap (2024). Tables. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/5.0/content/tables/ [Accessed 4 Feb. 2024].
+  
 ‌
 
 

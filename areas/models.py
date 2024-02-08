@@ -27,6 +27,7 @@ class City(models.Model):
     longitude = models.DecimalField(max_digits=50, decimal_places=30)
     latitude = models.DecimalField(max_digits=50, decimal_places=30)
 
+
 class Area(models.Model):
     areaID = models.AutoField(primary_key=True)
     areaName = models.CharField(max_length=255)

@@ -20,7 +20,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('reviewID', 'userID', 'areaID', 'imageYN', 'image', 'longitude', 'latitude', 'reviewText', 'reviewType', 'feelRating')
+        fields = ('reviewID', 'userID', 'imageYN', 'image', 'longitude', 'latitude', 'reviewText', 'reviewType', 'feelRating', 'publishDate')
 
 """
 REFERENCES:

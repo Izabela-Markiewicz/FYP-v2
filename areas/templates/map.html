@@ -138,81 +138,187 @@
         </section>
 
   
-            <section id="search-bar">
-                <div class="container px-5" style="padding-top:30px">
-                    <div class="row gx-5 align-items-center"> 
-    
-                        <!-- Left: Search Bar-->
-                        <!-- REF: Search Bar (MD Bootstrap, 2023) --> 
-                        <div class="col-lg-6 order-lg-2">                       
-                            <div class="input-group rounded container px-5">
-                                <button onclick="filterCrime('location_id')" type="button" class="btn btn-primary btn-lg" href="{% url 'crime_page' %}" >See Crime Data</button>
-                
-                            </div>
-                             
+        <section id="search-bar">
+            <div class="container px-5" style="padding-top:30px">
+                <div class="row gx-5 align-items-center"> 
+                    <!-- Right: See Crime Data -->
+                    <div class="col-lg-6 order-lg-1">                       
+                        <div class="p-5" style="text-align:center">
+                            <a href="{% url 'crime_page' %}" class="btn btn-primary btn-lg">See Crime Data</a>
                         </div>
-    
-                        <!-- Right: Location Name -->
-                        <div class="col-lg-6 order-lg-1">
-                            <div class="p-5" style="text-align:center">
-                                <button onclick="filterCrime('location_id')" type="button" class="btn btn-primary btn-lg">See User Reviews</button>
-                            </div>
+                    </div>
+                    <!-- Right: See USer Reviews -->
+                    <div class="col-lg-6 order-lg-1">                       
+                        <div class="p-5" style="text-align:center">
+                            <a href="" class="btn btn-primary btn-lg">See User Reviews</a>
                         </div>
-    
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section>
-                <div class= 'container'>
-    
-                    {% block table %}
-    
-                    <h1>Crime List</h1>
-    
-                <!-- Table with Crime Stats -->
-                        <table id="crime-table" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Location</th>
-                                    <th>Crime Type</th>
-                                    <th>Occurrences in 2022</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Table rows will be dynamically generated here -->
-                            </tbody>
-                        </table>
+
+        <!-- Iteration 4: -->
+        <!-- Filters for Reviews -->
+        <section>
+        	<div class='container px-5' style="padding-top:30px">
+
+                <form method="GET" action=".">
+
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Sector Name</label>
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Sector Name..."id="policeName-search" name="sector_like">
+                            <span class="input-group-text bg-transaprent">
+                                    <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Crime Type</label>
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Crime Type..."id="crimeType-search" name="crime_type">
+                            <span class="input-group-text bg-transaprent">
+                                    <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">PoliceID</label>
+                        <div class="input-group">
+                            <input type="number" min=1 max=12 class="form-control" placeholder="PoliceID..."id="policeID-search" name="police_ID">
+                            <span class="input-group-text bg-transaprent">
+                                    <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+
+              
+                    <div class="col-md-4">
+                        <label for="dropdown_sectors" class="form-label">Sector Name</label>
+                        <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
+                            <option selected>Choose...</option>
+
+                            {% for PoliceDivision in police_list %}
+                            <option value="{{ PoliceDivision.policeName}}"> {{ PoliceDivision.policeName}} </option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+
+                 </form>
+            </div>
+        </section>
+
+        <hr />
+
+        
+ <!-- Iteration 4 --> 
+        <!-- CRIME STATS -->
+        <!-- REF: Styled Tables (Bootstrap, 2024) -->
+        <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] -->
+        <section>
+            <div class= 'container'>
+
+                {% block reviews %}
+
+                    <h1>User Reviews</h1>
+
+                    {% if review_list %}
+                    <!-- Table with Crime Stats -->
+                    <table id="review-table" class="table table-striped" >
+                        <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Area</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                        </tr>
+                        </thead>
+
+                  
+                        {% for Review in review_list %}
+      
+        
+                    <tbody>
+                        <tr>
+                            <td>{{ Review.userID.username }}</td>
+                            <td>{{ Review.policeID.policeName }}</td>
+                            <td>{{ Review.feelRating }}</td>
+                            <td>{{ Review.reviewText }}</td>
+                        </tr>
+                    </tbody>
+                    
+
+           
+                        {% endfor %}
+                
                         
-                        <script>
-                            var crimeList = JSON.parse('{{ crime_list_json|escapejs }}');
-                            
-                            // Function to update the HTML table with new data
-                            function updateCrimeTable(locationFilter) {
-                                var tableBody = document.querySelector('#crime-table tbody');
-                                tableBody.innerHTML = ''; // Clear existing table rows
-                                
-                                // Loop through the crimeList and add rows to the table
-                                crimeList.forEach(function(crimeRecord) {
-                                    // Only add row if locationFilter matches the policeID
-                                    if (crimeRecord.policeID_id == locationFilter) {
-                                        var row = tableBody.insertRow();
-                                        row.innerHTML = '<td>' + crimeRecord.policeID.policeName + '</td>' +
-                                                        '<td>' + crimeRecord.crimeType + '</td>' +
-                                                        '<td>' + crimeRecord.value + '</td>';
-                                    }
-                                });
-                            }
+                    </table>
 
+                    {% else %}
+                       <p>No reviews available for this area</p>
+                    {% endif %}
 
-                        </script>
-                    {% endblock %} 
+                {% endblock %} 
 
-                </div>
-            </section>
+            </div>
+        </section>
+   
 
+        <!-- Iteration 4 --> 
+        <!-- CRIME STATS -->
+        <!-- REF: Styled Tables (Bootstrap, 2024) -->
+        <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] -->
+        <section>
+            <div class= 'container'>
 
-        <!-- Iteration 2 -->    
+                {% block crime %}
+
+                    <h1>Crime List</h1>
+
+                    <!-- Check if crime_list is empty -->
+                    {% if crime_list %}
+
+                    <!-- Table with Crime Stats -->
+                    <table id="crime-table" class="table table-striped" >
+                        <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th>Crime Type</th>
+                            <th>Occurences in 2022</th>
+                        </tr>
+                        </thead>
+                  
+                        {% for CrimeRecord in crime_list %}
+           
+                    <tbody>
+                        <tr>
+                            <td>{{ CrimeRecord.policeID.policeName }}</td>
+                            <td>{{ CrimeRecord.crimeType }}</td>
+                            <td>{{ CrimeRecord.value}}</td>
+                        </tr>
+                    </tbody>
+                    
+
+                        {% endfor %}
+                          
+                    </table>
+                    {% else %}
+                       <p>No crime data available for this area</p>
+                    {% endif %}
+                {% endblock %} 
+
+            </div>
+        </section>
+
+             <!-- Iteration 2 -->    
         <!-- AREA ANALYTICS-->
         <section id="area-analytics">
             <div class="container px-5">
@@ -259,64 +365,6 @@
             </div>
         </section>    
 
-        <!-- Iteration 4 --> 
-        <!-- CRIME STATS -->
-        <!-- REF: Styled Tables (Bootstrap, 2024) -->
-        <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] -->
-        <section>
-            <div class= 'container'>
-
-                {% block content %}
-
-                    <h1>Crime List</h1>
-
-                    <!-- Table with Crime Stats -->
-                    <table id="crime-table" class="table table-striped" >
-                        <thead>
-                        <tr>
-                            <th>Location</th>
-                            <th>Crime Type</th>
-                            <th>Occurences in 2022</th>
-                        </tr>
-                        </thead>
-
-                  
-                        {% for CrimeRecord in crime_list %}
-                        {% if CrimeRecord.policeID_id == locationFilter %}
-                    <tbody>
-                        <tr>
-                            <td>{{ CrimeRecord.policeID.policeName }}</td>
-                            <td>{{ CrimeRecord.crimeType }}</td>
-                            <td>{{ CrimeRecord.value}}</td>
-                        </tr>
-                    </tbody>
-                    
-
-                        {% endif %}
-                        {% endfor %}
-                
-                        
-                    </table>
-
-                {% endblock %} 
-<!--{% if CrimeRecord.policeID == policeID %} -->
-         <!-- {% endif %} -->
-            </div>
-        </section>
-
-
-            <!-- Iteration 4 List Sample
-                <ul class="list-group list-group-flush">
-
-                    {% for CrimeRecord in crime_list %}   
-
-                    <li class="list-group-item">{{ CrimeRecord.crimeType }}</li>                
-                       
-                    {% endfor %}
-
-                  </ul>
-                -->
-
 
         <!-- Footer-->
         <footer class="py-5 bg-black">
@@ -331,6 +379,8 @@
 
     </body>
 </html>
+
+
 {% comment  %}
 ////////////////////////////////////////////////////////////////////////////////
                               JavaScript
@@ -621,6 +671,7 @@ Iteration 3:
 Iteration 4:
     Codemy.com (2021). Fetch Data From a Database And Output To A Webpage - Django Wednesdays #5. YouTube. Available at: https://www.youtube.com/watch?v=H3joYTIRqKk [Accessed 4 Feb. 2024].
     Bootstrap (2024). Tables. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/5.0/content/tables/ [Accessed 4 Feb. 2024].
+    Freire, M. (2019). Build a dynamic filtering form with Django // 5 - Filtering by search. YouTube. Available at: https://www.youtube.com/watch?v=vU0VeFN-abU [Accessed 7 Feb. 2024].
 
 ‌
 ‌
