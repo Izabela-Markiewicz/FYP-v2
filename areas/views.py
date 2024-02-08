@@ -16,14 +16,13 @@ def show_map(request):
   
     global locationFilter
     
-    review_list = Review.objects.all()
+    # Iteration 4
+    # REF: Filtering form Django (Freire, 2019) Youtube Video Playlist
+    # REF: Order loaded records by date (ChatGPT,2024) - 'how do i filter records in order of publishDate from newest to oldest'
+    review_list = Review.objects.all().order_by('-publishDate')
     police_list = PoliceDivision.objects.all()
     crime_list = CrimeRecord.objects.all()
 
-    global locationFilter
-
-    # Iteration 4
-    # REF: Filtering form Django (Freire, 2019) Youtube Video Playlist
     sector_like_query = request.GET.get('sector_like')
     policeID_query = request.GET.get('police_ID')
     dropdown_sectors = request.GET.get('dropdown_sectors')
@@ -128,7 +127,7 @@ REFERENCES:
 Iteration 4:
     Codemy.com (2021). Fetch Data From a Database And Output To A Webpage - Django Wednesdays #5. YouTube. Available at: https://www.youtube.com/watch?v=H3joYTIRqKk [Accessed 4 Feb. 2024].
     Freire, M. (2019). Build a dynamic filtering form with Django // 6 - Filtering by date and view count. YouTube. Available at: https://www.youtube.com/watch?v=n1_MQiSXyxw [Accessed 7 Feb. 2024].
-
+    ChatGPT (2024).'how do i filter records in order of publishDate from newest to oldest'
 ‌
 
 

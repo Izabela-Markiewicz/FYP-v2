@@ -34,7 +34,6 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet-search/dist/leaflet-search.min.css" />  
         <!-- JQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yEx1q6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <script src="jquery-3.7.1.min.js"></script>
 
         <style>
             #map{
@@ -251,7 +250,7 @@
                             {% block userReviews %}
                                 {% if review_list %}
                                     {% for Review in review_list %}
-                                    
+    
                                         <div class="card mb-3 border-0">
                                             <div class="card-body d-flex">
                                                 <!-- Avatar icon column -->
@@ -266,25 +265,29 @@
                                                             <p class="mb-0">{{ Review.publishDate }}</p>
                                                         </div>
                                                         <div class="text-end">
-                                                            <div class="text-end mb-1">Area: <b>{{ Review.policeID.policeName }}</b></div> 
+                                                            <div class="text-end mb-1"><b>{{ Review.policeID.policeName }}</b></div> 
                                                             <div class="text-end">Safety Rating: <b>{{ Review.feelRating }}</b>/5</div>
                                                         </div>
                                                     </div>
                                                     <p class="mb-0">{{ Review.reviewText }}</p>
+                                                    {% if Review.image %}
+                                                        <br>
+                                                        <img style="width:40%; box-shadow: 0px 0px 10px black;" class="small-image" src="{{ Review.image.url }}" alt="crime_image" onclick="openImagePopup('{{ Review.image.url }}')">
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>
-
+    
                                         <hr> 
-
+    
                                     {% endfor %}
-
+    
                                 {% else %}
                                     <p>No reviews available for this area</p>
                                 {% endif %}
-
+    
                             {% endblock %}
-
+    
                         </div>
                     </div>
                 </div>
@@ -422,7 +425,7 @@
 
 {% comment  %} <script src="./data/CorkDivisions.js"><</script> might be needed at some point {% endcomment %}
 <script>
-
+   
 // Iteration 3
 // REF: Full Leaflet Tutorial - Youtube [57 mins] (The GIS Hub, 2022)
 // Showing Leaflet Base Map

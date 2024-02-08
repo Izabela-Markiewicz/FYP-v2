@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 
@@ -10,7 +12,7 @@ urlpatterns = [
     path('', views.landing_page, name='landing_page'), # Iteration 1
     path('crime/', views.show_crime, name='crime_page'), # Iteration 1
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 """
 REFERENCES:

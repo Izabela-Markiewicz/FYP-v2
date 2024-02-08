@@ -26,9 +26,9 @@ class Review(models.Model):
     image = models.ImageField(upload_to='files/reviewImages', null=True, blank=True)
     longitude = models.DecimalField(max_digits=50, decimal_places=30,null=True, blank=True)
     latitude = models.DecimalField(max_digits=50, decimal_places=30, null=True, blank=True)
-    reviewText = models.CharField(max_length=300)
-    reviewType = models.CharField(max_length=255,null=True, blank=True)
-    feelRating = models.DecimalField(max_digits=5, decimal_places=2)
+    reviewText = models.CharField(max_length=1500)
+    reviewType = models.CharField(max_length=1500,null=True, blank=True)
+    feelRating = models.DecimalField(max_digits=5, decimal_places=1)
     publishDate = models.DateTimeField(default=timezone.now)
     policeID = models.ForeignKey(PoliceDivision, on_delete=models.CASCADE, related_name='reviews', null=True, default=None)
 
