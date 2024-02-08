@@ -114,7 +114,7 @@
                                 
                                 <form>
                                 <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
-                                    <option selected>Choose...</option>
+                                    <option selected>Cork (All)</option>
 
                                     <!-- Show all unique values of police deparments, ie sectors-->
                                     {% for PoliceDivision in police_list %}
@@ -173,8 +173,9 @@
 
         <!-- Iteration 4: -->
         <!-- Filters for Reviews -->
-                <!-- Filters for Reviews
-        <section>
+        <!-- Filters for Reviews
+        
+            <section>
         	<div class='container px-5' style="padding-top:30px">
 
                 <form method="GET" action=".">
@@ -230,62 +231,72 @@
             </div>
         </section>
 
-                            -->
+-->
 
-        <hr />
+    <!-- Iteration 4: -->
+    <!-- User Reviews -->
+    <!-- REF: Sample Comment Cards (MDBoostrap, 2024) -->
+    <!-- REF: Refined by ChatGPT (ChatGPT, 2024) - "This is the code for boostrap comments, but when i loop through one the style is skewed, fix this"--> 
+    
+    <section style="background-color: #f5f5f5;">
+        <div class="container my-5 py-5">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12 col-lg-10">
+                    <div class="card text-dark">
+                        <div class="card-body p-4">
+                            <h4 class="mb-0">User Reviews</h4>
+                            <p class="fw-light mb-4 pb-2">Most recent</p>
+    
+                            <!-- Looping Through Tiles -->
+                            {% block userReviews %}
+                                {% if review_list %}
+                                    {% for Review in review_list %}
+                                    
+                                        <div class="card mb-3 border-0">
+                                            <div class="card-body d-flex">
+                                                <!-- Avatar icon column -->
+                                                <div class="me-3">
+                                                    <img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(23).webp" alt="avatar" width="60" height="60" />
+                                                </div>
+                                                <!-- Review content column -->
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <div>
+                                                            <h6 class="fw-bold mb-1">{{ Review.userID.username }}</h6>
+                                                            <p class="mb-0">{{ Review.publishDate }}</p>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <div class="text-end mb-1">Area: <b>{{ Review.policeID.policeName }}</b></div> 
+                                                            <div class="text-end">Safety Rating: <b>{{ Review.feelRating }}</b>/5</div>
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-0">{{ Review.reviewText }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
 
-        
-        <!-- Iteration 4 --> 
-        <!-- CRIME STATS -->
-        <!-- REF: Styled Tables (Bootstrap, 2024) -->
-        <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] -->
-        <section>
-            <div class= 'container'>
+                                        <hr> 
 
-                {% block reviews %}
+                                    {% endfor %}
 
-                    <h1>User Reviews</h1>
+                                {% else %}
+                                    <p>No reviews available for this area</p>
+                                {% endif %}
 
-                    {% if review_list %}
-                    <!-- Table with Crime Stats -->
-                    <table id="review-table" class="table table-striped" >
-                        <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Area</th>
-                            <th>Rating</th>
-                            <th>Comment</th>
-                        </tr>
-                        </thead>
+                            {% endblock %}
 
-                  
-                        {% for Review in review_list %}
-      
-        
-                    <tbody>
-                        <tr>
-                            <td>{{ Review.userID.username }}</td>
-                            <td>{{ Review.policeID.policeName }}</td>
-                            <td>{{ Review.feelRating }}</td>
-                            <td>{{ Review.reviewText }}</td>
-                        </tr>
-                    </tbody>
-                    
-
-           
-                        {% endfor %}
-                
-                        
-                    </table>
-
-                    {% else %}
-                       <p>No reviews available for this area</p>
-                    {% endif %}
-
-                {% endblock %} 
-
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
+    
+
+    
+        
+     
+
    
         <hr />
 
@@ -689,12 +700,11 @@ Iteration 4:
     Codemy.com (2021). Fetch Data From a Database And Output To A Webpage - Django Wednesdays #5. YouTube. Available at: https://www.youtube.com/watch?v=H3joYTIRqKk [Accessed 4 Feb. 2024].
     Bootstrap (2024). Tables. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/5.0/content/tables/ [Accessed 4 Feb. 2024].
     Freire, M. (2019). Build a dynamic filtering form with Django // 5 - Filtering by search. YouTube. Available at: https://www.youtube.com/watch?v=vU0VeFN-abU [Accessed 7 Feb. 2024].
-
-‌
+    MDBootstrap (2023). Bootstrap Tiles - free examples & tutorial. [online] MDB - Material Design for Bootstrap. Available at: https://mdbootstrap.com/docs/standard/extended/tiles/ [Accessed 8 Feb. 2024].
+    (ChatGPT, 2024) - "This is the code for boostrap comments, but when i loop through one the style is skewed, fix this"
 ‌
 Images:
     Cork Header Background - Irish Mirror. (2022). Cork claims ‘fittest place’ crown across UK and Ireland. [online] Irish Mirror. Available at: https://www.irishmirror.ie/news/irish-news/health-news/cork-claims-fittest-place-crown-28107536 [Accessed 23 Nov. 2023].
-
 
 
 ‌-->

@@ -36,7 +36,7 @@ def show_map(request):
         review_list = review_list.filter(policeID__exact=policeID_query) # check that title contains query that you put in
         crime_list = crime_list.filter(policeID__exact=policeID_query)
 
-    if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Choose..':
+    if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Cork (All)':
         review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors) # check that title contains query that you put in
         crime_list = crime_list.filter(policeID__policeName__icontains=dropdown_sectors)
 
