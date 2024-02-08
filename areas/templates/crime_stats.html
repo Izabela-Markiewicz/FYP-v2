@@ -50,7 +50,6 @@
         <header class="masthead text-center text-white has-bg-img" style="background-image:url({% static 'assets/img/cork1.jpg' %})">
             <div class="masthead-content has-bg-img">        
                 <div class="container px-5">
-               
                     <h1 class="masthead-heading mb-0" style="text-shadow: 0 0 32px black, 0 0 32px black, 0 0 32px black, 0 0 32px black">Crime Stats</h1>
                     <h4 style="text-shadow: 0 0 32px black, 0 0 32px black, 0 0 32px black, 0 0 32px black">Official government crime data</h4>
                 </div>
@@ -91,10 +90,9 @@
                     <div class="col-md-4">
                         <label for="dropdown_sectors" class="form-label">Sector Name</label>
                         <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
-                            <option selected>Choose...</option>
+                            <option selected>Cork (All)</option>
 
                             {% for PoliceDivision in police_list %}
-
                             <option value="{{ PoliceDivision.policeName}}"> {{ PoliceDivision.policeName}} </option>
                             {% endfor %}
 
@@ -113,32 +111,33 @@
         <hr />
     
        
-        <!-- Iteration 2 -->    
+        <!-- Iteration 4 -->    
         <!-- Search Bar and Location Name-->
-        <!-- REF: Working with grids (GetBootstrap, 2023) -->
         <section id="search-bar">
             <div class="container px-5" style="padding-top:30px">
                 <div class="row gx-5 align-items-center"> 
+                
+                        <!-- Left: Search Bar-->
+                        <div class="col-lg-6 order-lg-2 d-flex align-items-center justify-content-center">
+                            <div class="col-md-6 text-center">
+                                <h3 class="form-label">Area Search</h3>
+                                
+                                <form>
+                                <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
+                                    <option selected>Cork (All)</option>
 
-        
-                    <!-- Right: Dropdown-->
-                    <div class="col-lg-6 order-lg-2 flex-column align-items-center">                       
-                        <div class="btn-group align-items-center">
-                            <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Choose Location
-                            </button>
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">Bridewell</a></li>
-                            </ul>
+                                    <!-- Show all unique values of police deparments, ie sectors-->
+                                    {% for PoliceDivision in police_list %}
+                                    <option value="{{ PoliceDivision.policeName }}">{{ PoliceDivision.policeName }}</option>
+                                    {% endfor %}
+
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-block mt-3" style="width: 300px">Search</button>
+                            </form>
+                            </div>
                         </div>
-                        <div class="col-12 mt-3 align-items-center">
-                            <button type="submit" class="btn btn-primary">Search</button>
-                        </div>
-                    </div>
+
                  
-
-
-
 
                     <!-- Right: Location Name -->
                     <div class="col-lg-6 order-lg-1">
@@ -164,6 +163,8 @@
                 {% block content %}
 
                     <h1>Crime List</h1>
+
+                    {% if crime_list %}
 
                     <!-- Table with Crime Stats -->
                     <table id="crime-table" class="table table-striped" >
@@ -193,10 +194,10 @@
                 
                         
                     </table>
-
+                    {% else %}
+                    <p>No crime data available for this area</p>
+                 {% endif %}
                 {% endblock %} 
-<!--{% if CrimeRecord.policeID == locationFilter %} -->
-         <!-- {% endif %} -->
             </div>
         </section>
    
