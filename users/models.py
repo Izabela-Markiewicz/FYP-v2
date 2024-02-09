@@ -29,6 +29,7 @@ class Review(models.Model):
     reviewText = models.CharField(max_length=1500)
     reviewType = models.CharField(max_length=1500,null=True, blank=True)
     feelRating = models.DecimalField(max_digits=5, decimal_places=1)
+    #Iteration 4:
     publishDate = models.DateTimeField(default=timezone.now)
     policeID = models.ForeignKey(PoliceDivision, on_delete=models.CASCADE, related_name='reviews', null=True, default=None)
 

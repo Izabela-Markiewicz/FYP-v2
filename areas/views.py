@@ -12,31 +12,32 @@ from django.core.serializers import serialize
 # Map Page
 def show_map(request):
     # Iteration 4:
-    # PASSSING CRIME RECORDS FROM DB (Codemy.com, 2021)
-  
-    global locationFilter
-    
-    # Iteration 4
+    # PASSSING CRIME RECORDS FROM DB 
+    # REF: Fetch data from DB and ouput on webpage (Codemy.com, 2021)
     # REF: Filtering form Django (Freire, 2019) Youtube Video Playlist
     # REF: Order loaded records by date (ChatGPT,2024) - 'how do i filter records in order of publishDate from newest to oldest'
-    review_list = Review.objects.all().order_by('-publishDate')
+    review_list = Review.objects.all().order_by('-publishDate') # Order by most recent review
     police_list = PoliceDivision.objects.all()
     crime_list = CrimeRecord.objects.all()
 
-    sector_like_query = request.GET.get('sector_like')
+    # Get value of form controls as a parameter
+    sector_like_query = request.GET.get('sector_like') 
     policeID_query = request.GET.get('police_ID')
     dropdown_sectors = request.GET.get('dropdown_sectors')
 
+    # Fetch all records similar to input, doesn't have to be exact/complete   
     if is_valid_queryparam(sector_like_query):
-        review_list = review_list.filter(policeID__policeName__icontains=sector_like_query)
+        review_list = review_list.filter(policeID__policeName__icontains=sector_like_query) 
         crime_list = crime_list.filter(policeID__policeName__icontains=sector_like_query)
 
+    # ID search needs to exactly match  
     if is_valid_queryparam(policeID_query):
-        review_list = review_list.filter(policeID__exact=policeID_query) # check that title contains query that you put in
+        review_list = review_list.filter(policeID__exact=policeID_query) 
         crime_list = crime_list.filter(policeID__exact=policeID_query)
 
-    if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Cork (All)':
-        review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors) # check that title contains query that you put in
+    # Dropdown
+    if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Cork (All)': 
+        review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors)
         crime_list = crime_list.filter(policeID__policeName__icontains=dropdown_sectors)
 
     context = {
@@ -53,7 +54,7 @@ def landing_page(request):
     return render(request, 'landing.html') #Iteration 1
 
 # Iteration 4
-# Verifying if parameters are valid in policeID search bar (int)
+# Verifying if parameters are valid type eg int
 def is_valid_queryparam(param):
      return param != '' and param is not None # boolean check ture/false
 
@@ -111,7 +112,7 @@ def show_reviews(request):
     if is_valid_queryparam(policeID_query):
         review_list = review_list.filter(policeID__exact=policeID_query) # check that title contains query that you put in
 
-    if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Choose..':
+    if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Cork (All)':
         review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors) # check that title contains query that you put in
     
     context = {

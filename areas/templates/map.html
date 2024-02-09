@@ -102,7 +102,7 @@
             <div class="container px-5" style="padding-top:30px">
                 <div class="row gx-5 align-items-center"> 
                 
-                        <!-- Left: Search Bar-->
+                        <!-- Left: Dropdown-->
                         <div class="col-lg-6 order-lg-2 d-flex align-items-center justify-content-center">
                             <div class="col-md-6 text-center">
                                 <h3 class="form-label">Area Search</h3>
@@ -160,7 +160,6 @@
     <!-- User Reviews -->
     <!-- REF: Sample Comment Cards (MDBoostrap, 2024) -->
     <!-- REF: Refined by ChatGPT (ChatGPT, 2024) - "This is the code for boostrap comments, but when i loop through one the style is skewed, fix this"--> 
-    
     <section style="background-color: #f5f5f5;">
         <div class="container my-5 py-5">
             <div class="row d-flex justify-content-center">
@@ -247,7 +246,7 @@
         <!-- Iteration 4 --> 
         <!-- CRIME STATS -->
         <!-- REF: Styled Tables (Bootstrap, 2024) -->
-        <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] -->
+        <!-- REF: Showing Items from DB (Codemy.com, 2021) Youtube [18:41] -->
         <section>
             <div class= 'container'>
 
@@ -289,15 +288,18 @@
 
             </div>
         </section>
+   
+
 
              <!-- Iteration 2 -->    
         <!-- AREA ANALYTICS-->
+        <!-- 
         <section id="area-analytics">
             <div class="container px-5">
 
-                <!-- Analytics Tiles -->
+                <!-- Analytics Tiles 
                 <div class="row align-items-center"> 
-                        <!-- Metric 1 -->
+                        <!-- Metric 1 
                         <div class="col">
                             <div class="p-5" style="text-align:center">
                                 <h2 class="display-4" id="Robberies">{{ my_variable }}</h2>
@@ -306,7 +308,7 @@
                             </div>
                         </div>
 
-                        <!-- Metric 2 -->
+                        <!-- Metric 2 
                         <div class="col">
                             <div class="p-5" style="text-align:center">
                                 <h2 class="display-4">34</h2>
@@ -316,7 +318,7 @@
                         </div>
                     
 
-                        <!-- Metric 3 -->
+                        <!-- Metric 3 
                         <div class="col">
                             <div class="p-5" style="text-align:center">
                                 <h2 class="display-4">26</h2>
@@ -325,7 +327,7 @@
                             </div>
                         </div>
 
-                        <!-- Metric 4 -->
+                        <!-- Metric 4
                         <div class="col">
                             <div class="p-5" style="text-align:center">
                                 <h2 class="display-4">56</h2>
@@ -337,6 +339,8 @@
             </div>
         </section>    
 
+    
+    -->
 
         <!-- Footer-->
         <footer class="py-5 bg-black">
@@ -568,16 +572,18 @@ function updateLocationNameFromID(policeID) {
 }
 
 function filterCrime(ID) {
-    document.getElementById('Robberies').textContent = ID;
+    console.log("Filter crime function called");
+    // document.getElementById('Robberies').textContent = ID; - Testing showing active policeID
     locationFilter = ID;
     console.log("ID:" + ID);
+    console.log("locationFilter:" + ID);
     url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29";
     updateLocationNameFromID(locationFilter);
 }
 
 document.getElementById("filterButton").addEventListener("click", function() {
     console.log("Location Filter: " + locationFilter);
-   // url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29";
+   //url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29";
    url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29#:~:text=to%20Selected%20Area-,User%20Reviews,-Most%20recent"
     window.location.href = url;
 });
@@ -638,11 +644,13 @@ Iteration 4:
     Bootstrap (2024). Tables. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/5.0/content/tables/ [Accessed 4 Feb. 2024].
     Freire, M. (2019). Build a dynamic filtering form with Django // 5 - Filtering by search. YouTube. Available at: https://www.youtube.com/watch?v=vU0VeFN-abU [Accessed 7 Feb. 2024].
     MDBootstrap (2023). Bootstrap Tiles - free examples & tutorial. [online] MDB - Material Design for Bootstrap. Available at: https://mdbootstrap.com/docs/standard/extended/tiles/ [Accessed 8 Feb. 2024].
-    (ChatGPT, 2024) - "This is the code for boostrap comments, but when i loop through one the style is skewed, fix this"
-‌    (ChatGPT, 2024) - "this URL works so that if the form is submitted, in this examples police_ID was given the value of '2' the records with policeID == 2 show up. http://127.0.0.1:8000/crime/?sector_like=&police_ID=2&dropdown_sectors=Cork+%28All%29 on the same basis i want to do that, but so that the value of Police_ID in URL is equal to the value of var locationFilter from function filterCrime (code)"
+    ChatGPT (2024) - "This is the code for boostrap comments, but when i loop through one the style is skewed, fix this"
+‌    ChatGPT (2024) - "this URL works so that if the form is submitted, in this examples police_ID was given the value of '2' the records with policeID == 2 show up. http://127.0.0.1:8000/crime/?sector_like=&police_ID=2&dropdown_sectors=Cork+%28All%29 on the same basis i want to do that, but so that the value of Police_ID in URL is equal to the value of var locationFilter from function filterCrime (code)"
 
 Images:
     Cork Header Background - Irish Mirror. (2022). Cork claims ‘fittest place’ crown across UK and Ireland. [online] Irish Mirror. Available at: https://www.irishmirror.ie/news/irish-news/health-news/cork-claims-fittest-place-crown-28107536 [Accessed 23 Nov. 2023].
+    Homeless Picture - Larry Cummins (2023). ‘Nine long-term vacant homes for every homeless adult’ in Cork. [online] echo live. Available at: https://www.echolive.ie/corknews/arid-41262343.html [Accessed 9 Feb. 2024].
 
+‌
 
 ‌-->
