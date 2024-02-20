@@ -4,6 +4,8 @@ from .models import User
 from .serializers import UserSerializer
 from django.contrib.auth import authenticate, login, logout # Iteration 5
 from django.contrib import messages # Iteration 5
+from django.contrib.auth.forms import UserCreationForm
+from .forms import RegisterUserForm
 
 # Create your views here.
 
@@ -38,6 +40,29 @@ def login_user(request):
         
     else: 
         return render(request, 'login.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, ("You are now logged out."))
+    return redirect('landing_page')
+
+def register_user(request):
+    if request.method == "POST":
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            messages.success(request, ("Registration Successful"))
+            return redirect('landing_page') 
+    else:
+        form = RegisterUserForm()
+
+    return render(request,'register.html', {
+        'form' : form,
+    })
 
 
 """
