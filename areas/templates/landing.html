@@ -33,7 +33,7 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" href="/map">Search for a Location</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Sign Up</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Log In</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login_user' %}">Log In</a></li>
                     </ul>
                 </div>
             </div>
@@ -56,6 +56,18 @@
             <div class="bg-circle-3 bg-circle"></div>
             <div class="bg-circle-4 bg-circle"></div>
         </header>
+
+        <!-- Messages -->
+        <div class='container'>
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+            
+            {% block messages %}
+            {% endblock %}
+
 
         <!-- Content section 1-->
         <section id="scroll">

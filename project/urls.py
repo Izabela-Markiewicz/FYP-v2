@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls), # Iteration 1
     path('', include('users.urls')), # Environment
     path('', include('areas.urls')), # Iteration 1
+    path('users/', include('django.contrib.auth.urls')), # Iteration 5 (Codemy.com, 2021)
      
 ]
 
@@ -36,6 +37,11 @@ if settings.DEBUG:
 
 """
 REFERENCES:
-ChatGPT, 2023. Iteration1-1. Prompt- "my static file is a folder in my overall django project. i used a bootstrap template for one of my apps, but the css or images wont load"
+Iteration 1:   
+    ChatGPT, 2023. Iteration1-1. Prompt- "my static file is a folder in my overall django project. i used a bootstrap template for one of my apps, but the css or images wont load"
 
+Iteration 2:
+    Codemy.com (2021). Login With User Authentication - Django Wednesdays #21. YouTube. Available at: https://www.youtube.com/watch?v=CTrVDi3tt8o [Accessed 19 Feb. 2024].
+
+‌
 """
