@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import CrimeRecord, PoliceDivision
 from users.models import User, Review
+from django.contrib.auth.models import User
 from django.core.serializers import serialize
 
 # Requests to dispaly html pages
@@ -100,7 +101,7 @@ def show_reviews(request):
 
     global locationFilter
 
-    # Iteration 4
+    # Iteration 4:
     # REF: Filtering form Django (Freire, 2019) Youtube Video Playlist
     sector_like_query = request.GET.get('sector_like')
     policeID_query = request.GET.get('police_ID')
@@ -115,9 +116,12 @@ def show_reviews(request):
     if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Cork (All)':
         review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors) # check that title contains query that you put in
     
+
+    # Iteration 5:
+    review_author = User.objects.get(pk=Review.author)
     context = {
         'review_list' : review_list,
-        'police_list' : police_list
+        'police_list' : police_list,
 
     }
     return render(request, 'map.html', context) # Can now reference crime records from DB in html

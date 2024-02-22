@@ -81,8 +81,10 @@ def add_review(request):
         if form.is_valid():
             review = form.save(commit=False)
             review.author = request.user.id # passing logged in user ID to review
-            user_instance = User.objects.get(pk=request.user.pk)
-            review.userID = user_instance  # Assign the User instance
+            review.owner = request.user
+          #  review.userID = review.author
+           # user_instance = User.objects.get(pk=request.user.pk)
+           # review.userID = user_instance  # Assign the User instance
             review.save()
            #  return HttpResponseRedirect('/add_review?submitted=True')
             return redirect(reverse('add_review') + '?submitted=True')

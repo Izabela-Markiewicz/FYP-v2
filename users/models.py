@@ -2,6 +2,10 @@ from django.db import models
 from areas.models import PoliceDivision
 from django.utils import timezone
 from datetime import datetime
+from  django.contrib.auth.models import User
+from django.conf import settings
+from django.db import models
+
 
 # Iteration 1:
 # CREATING MODELS for all user-related objects
@@ -18,8 +22,11 @@ class User(models.Model):
 
 class Review(models.Model):
     reviewID = models.AutoField(primary_key=True)
+    policeID = models.ForeignKey(PoliceDivision, on_delete=models.CASCADE, related_name='reviews', null=True, default=None)
+    author = models.IntegerField(blank=False, default=1)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
     #REF: Reference a PK as a FK with Django serializers (Sankalpjonna.com, 2023)
-    userID = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews', default=None)
+    # userID = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews', default=None)
     # areaID = models.ForeignKey(Area, on_delete=models.CASCADE, related_name='reviews', null=True, default=None)
     imageYN =  models.BooleanField(default=False)
     #REF: Upload image using Django ImageField (Curry,2023)
@@ -29,10 +36,9 @@ class Review(models.Model):
     reviewText = models.CharField(max_length=1500)
     reviewType = models.CharField(max_length=1500,null=True, blank=True)
     feelRating = models.DecimalField(max_digits=5, decimal_places=1)
-    #Iteration 4:
-    publishDate = models.DateTimeField(default=timezone.now)
-    policeID = models.ForeignKey(PoliceDivision, on_delete=models.CASCADE, related_name='reviews', null=True, default=None)
-    author = models.IntegerField(blank=False, default=1)
+    publishDate = models.DateTimeField(default=timezone.now) #Iteration 4:
+  
+
 
     
 
