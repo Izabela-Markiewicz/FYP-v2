@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from rest_framework import generics
-from .models import User
+from .models import User, Review
 from .serializers import UserSerializer
 from django.contrib.auth import authenticate, login, logout # Iteration 5
 from django.contrib import messages # Iteration 5
 from django.contrib.auth.forms import UserCreationForm
-from .forms import RegisterUserForm
-
-# Create your views here.
+from .forms import RegisterUserForm, ReviewForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Environment
 # Create a user and display info
@@ -25,7 +25,7 @@ class UserRetrieveUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
 
 # Iteration 5
 # Login / Authenticate
-# REF: Django Login nad User Authentication [Youtube] (Codemy.com, 2021)
+# REF: Django Login and User Authentication [Youtube] (Codemy.com, 2021)
 def login_user(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -41,11 +41,17 @@ def login_user(request):
     else: 
         return render(request, 'login.html', {})
 
+# Iteration 5
+# Logout
+# REF: Log Out With User Authentication [Youtube] (Codemy.com, 2021)
 def logout_user(request):
     logout(request)
     messages.success(request, ("You are now logged out."))
     return redirect('landing_page')
 
+# Iteration 5
+# Register User
+# REF: How To Register Users [Youtube] (Codemy.com, 2021)
 def register_user(request):
     if request.method == "POST":
         form = RegisterUserForm(request.POST)
@@ -64,6 +70,31 @@ def register_user(request):
         'form' : form,
     })
 
+# Iteration 5
+# Create Review
+# REF: How To Add Database Forms To A Web Pages [Youtube] (Codemy.com, 2021)
+def add_review(request):
+    submitted = False
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        # REF: Add Venue Owner [Youtube] (Codemy.com, 2021)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.author = request.user.id # passing logged in user ID to review
+            user_instance = User.objects.get(pk=request.user.pk)
+            review.userID = user_instance  # Assign the User instance
+            review.save()
+           #  return HttpResponseRedirect('/add_review?submitted=True')
+            return redirect(reverse('add_review') + '?submitted=True')
+    else:
+        form = ReviewForm
+        if 'submitted' in request.GET:
+            submitted = True
+
+    return render(request, 'add_review.html', {
+        'form' : form,
+        'submitted' : submitted,
+        })
 
 """
 REFERENCES:
@@ -73,7 +104,15 @@ Environment:
 
 Iteration 5:
     Codemy.com (2021). Login With User Authentication - Django Wednesdays #21. YouTube. Available at: https://www.youtube.com/watch?v=CTrVDi3tt8o [Accessed 20 Feb. 2024].
+    Codemy.com (2021). Log Out With User Authentication - Django Wednesdays #22. YouTube. Available at: https://www.youtube.com/watch?v=BTq0MAIJEH8&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=23 [Accessed 21 Feb. 2024].
+    Codemy.com (2021). How To Register Users - Django Wednesdays #24. YouTube. Available at: https://www.youtube.com/watch?v=EqjRhO5CK6A&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=25 [Accessed 21 Feb. 2024].
+    Codemy.com (2021). How To Add Database Forms To A Web Page - Django Wednesdays #7. YouTube. Available at: https://www.youtube.com/watch?v=CVEKe39VFu8&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=7 [Accessed 21 Feb. 2024].
+    Codemy.com (2021). Add Venue Owner - Django Wednesdays #29. YouTube. Available at: https://www.youtube.com/watch?v=fXKLLwdryHQ&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=29 [Accessed 22 Feb. 2024].
 
+‌
+‌
+‌
+‌
 ‌
 
 """    

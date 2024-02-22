@@ -32,6 +32,7 @@ class Review(models.Model):
     #Iteration 4:
     publishDate = models.DateTimeField(default=timezone.now)
     policeID = models.ForeignKey(PoliceDivision, on_delete=models.CASCADE, related_name='reviews', null=True, default=None)
+    author = models.IntegerField(blank=False, default=1)
 
     
 
