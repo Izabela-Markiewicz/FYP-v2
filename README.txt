@@ -40,3 +40,12 @@ Iteration 4:
   MDBootstrap (2023). Bootstrap Tiles - free examples & tutorial. [online] MDB - Material Design for Bootstrap. Available at: https://mdbootstrap.com/docs/standard/extended/tiles/ [Accessed 8 Feb. 2024].
   ChatGPT (2024) - "This is the code for boostrap comments, but when i loop through one the style is skewed, fix this"
 ‌  ChatGPT (2024) - "this URL works so that if the form is submitted, in this examples police_ID was given the value of '2' the records with policeID == 2 show up. http://127.0.0.1:8000/crime/?sector_like=&police_ID=2&dropdown_sectors=Cork+%28All%29 on the same basis i want to do that, but so that the value of Police_ID in URL is equal to the value of var locationFilter from function filterCrime (code)"
+
+Iteration 5:
+  MDBootstrap (2020). Bootstrap Login Form - free examples, templates & tutorial. [online] MDB - Material Design for Bootstrap. Available at: https://mdbootstrap.com/docs/standard/extended/login/ [Accessed 19 Feb. 2024].
+  Bootstrap (2024). Alerts. [online] Getbootstrap.com. Available at: https://getbootstrap.com/docs/4.0/components/alerts/ [Accessed 20 Feb. 2024].
+  Codemy.com (2021). Login With User Authentication - Django Wednesdays #21. YouTube. Available at: https://www.youtube.com/watch?v=CTrVDi3tt8o [Accessed 20 Feb. 2024].
+  Codemy.com (2021). Log Out With User Authentication - Django Wednesdays #22. YouTube. Available at: https://www.youtube.com/watch?v=BTq0MAIJEH8&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=23 [Accessed 21 Feb. 2024].
+  Codemy.com (2021). How To Register Users - Django Wednesdays #24. YouTube. Available at: https://www.youtube.com/watch?v=EqjRhO5CK6A&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=25 [Accessed 21 Feb. 2024].
+  Codemy.com (2021). How To Add Database Forms To A Web Page - Django Wednesdays #7. YouTube. Available at: https://www.youtube.com/watch?v=CVEKe39VFu8&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=7 [Accessed 21 Feb. 2024].
+  Codemy.com (2021). Add Venue Owner - Django Wednesdays #29. YouTube. Available at: https://www.youtube.com/watch?v=fXKLLwdryHQ&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=29 [Accessed 22 Feb. 2024].
