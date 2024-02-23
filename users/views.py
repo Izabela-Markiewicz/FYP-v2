@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterUserForm, ReviewForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from areas.models import PoliceDivision
 
 # Environment
 # Create a user and display info
@@ -76,7 +77,7 @@ def register_user(request):
 def add_review(request):
     submitted = False
     if request.method == "POST":
-        form = ReviewForm(request.POST)
+        form = ReviewForm(request.POST, request.FILES) # Handle image uploads
         # REF: Add Venue Owner [Youtube] (Codemy.com, 2021)
         if form.is_valid():
             review = form.save(commit=False)

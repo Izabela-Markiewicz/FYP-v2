@@ -85,8 +85,8 @@
        
         <section>
             <div class="container"  style="padding-top:30px">
-
-            <form method="POST">
+ 
+            <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 {{ form.as_p}}

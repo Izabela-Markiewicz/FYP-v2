@@ -20,6 +20,9 @@ class PoliceDivision(models.Model):
     latitude = models.DecimalField(max_digits=50, decimal_places=15)
     crimeRating = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return self.policeName
+
 class City(models.Model):
     cityID = models.AutoField(primary_key=True)
     cityName = models.CharField(max_length=255)
