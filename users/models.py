@@ -31,12 +31,13 @@ class Review(models.Model):
     imageYN =  models.BooleanField(default=False)
     #REF: Upload image using Django ImageField (Curry,2023)
     image = models.ImageField(upload_to='files/reviewImages', null=True, blank=True)
-    longitude = models.DecimalField(max_digits=50, decimal_places=30,null=True, blank=True)
-    latitude = models.DecimalField(max_digits=50, decimal_places=30, null=True, blank=True)
+    #longitude = models.DecimalField(max_digits=50, decimal_places=30,null=True, blank=True)
+    #latitude = models.DecimalField(max_digits=50, decimal_places=30, null=True, blank=True)
     reviewText = models.CharField(max_length=1500)
-    reviewType = models.CharField(max_length=1500,null=True, blank=True)
+    #reviewType = models.CharField(max_length=1500,null=True, blank=True)
     feelRating = models.DecimalField(max_digits=5, decimal_places=1)
     publishDate = models.DateTimeField(default=timezone.now) #Iteration 4:
+    approved =  models.BooleanField(default=False) #Iteration 5:
   
 
 
