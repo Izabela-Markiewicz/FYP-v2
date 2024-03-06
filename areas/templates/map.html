@@ -51,6 +51,10 @@
                 margin: 0 0 5px;
                 color: #777;
             }
+            .rounded-big {
+                border-radius: 20px;
+                border: 2px solid #EE0979;
+            }
         </style>
     </head>
 
@@ -116,9 +120,9 @@
                         <!-- Left: Dropdown-->
                         <div class="col-lg-6 order-lg-2 d-flex align-items-center justify-content-center">
                             <div class="col-md-6 text-center">
-                                <h3 class="form-label">Area Search</h3>
+                                <h2 class="form-label">Area Search</h2>
                                 
-                                <form>
+                                <form id="dropdown">
                                 <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
                                     <option selected>Cork (All)</option>
 
@@ -159,12 +163,40 @@
             </div>         
         </section>
 
-      
- 
-   
+        <!-- Iteration 6 -->    
+        <!-- Ratings -->  
+        <section id="search-bar">
+            <div class="container px-5" style="padding-top: 30px;">
+                <div class="row gx-5 align-items-center"> 
+                    <!-- First Column -->
+                    <div class="col-lg-4">
+                        <div class="p-3 rounded-big shadow" style="text-align: center; box-shadow: 0px 0px 10px rgba(0, 0, 0, 10);">
+                                <h5 class="display-4" id='user-rating'><b>{{ avg_rating|floatformat:"1" }}</b></h5>
+                            <h4>User Safety Rating</h5>
+                        </div>
+                    </div>
+                    <!-- Second Column -->
+                    <div class="col-lg-4" style="padding-top: 15px">
+                        <div class="p-3 rounded-big shadow" style="text-align: center">
+                            <h5 class="display-4" id='safety-rank'><b>#</b></h5>
+                            <h4>Safest in Cork</h4>
+                        </div>
+                    </div>
+                    <!-- Third Column -->
+                    <div class="col-lg-4" style="padding-top: 15px">
+                        <div class="p-3 rounded-big shadow" style="text-align: center">
+                            <h5 class="display-4" id='occurences'><b>11532</b></h5>
+                            <h4>Annual Crimes</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         
-        <div class="container align-items-center d-flex justify-content-center">
-            <button id="filterButton" type="submit" class="btn btn-outline-primary btn-block mt-3" style="width: 300px; background: ">Filter to Selected Area</button>
+        <!-- Iteration 5 -->    
+        <!-- Filter Button --> 
+        <div class="container align-items-center d-flex justify-content-center" style="padding-top: 30px;">
+            <button id="filterButton" type="submit" class="btn btn-primary btn-block mt-3" style="width: 300px">Filter to Selected Area</button>
         </div> 
 
     <!-- Iteration 4: -->
@@ -231,8 +263,6 @@
     </section>
     
    
-
-
     <!-- Iteration 4 --> 
     <!-- CRIME REDIRECT-->
     <section>
@@ -248,7 +278,7 @@
 
     
 
-             <!-- Iteration 2 -->    
+        <!-- Iteration 2 -->    
         <!-- AREA ANALYTICS-->
         <!-- 
         <section id="area-analytics">
@@ -418,13 +448,16 @@ function onEachFeature(feature, layer) {
                 currentMarker = null;
             }
 
-            // Update the location name
-            updateLocationName(feature.properties.policeName);
-
+       
             // Zoom to the feature
             zoomToFeature(e);
 
+            // Filter crime/user reviews
+            updateOccurences(feature.properties.occurences);
+            updateRank(feature.properties.rank);
+            updateLocationName(feature.properties.policeName);
             filterCrime(feature.properties.policeID);
+
         }
     });
 }
@@ -448,6 +481,8 @@ var geocoder = L.Control.geocoder({
         // Loop through each feature in your GeoJSON layer
         polygonJSON.eachLayer(function(layer) {
             if (isMarkerInsidePolygon(latlng, layer)) {
+                updateOccurences(layer.feature.properties.occurences);
+                updateRank(layer.feature.properties.rank);
                 updateLocationName(layer.feature.properties.policeName);
                 filterCrime(layer.feature.properties.policeID);
                 found = true;
@@ -506,7 +541,19 @@ map.addControl(searchControl);
 
 // Function to update the location name in HTML
 function updateLocationName(name) {
+    console.log("updateLocationName:" + name)
     document.getElementById('location-name').textContent = name;
+}
+
+function updateOccurences(occurences) {
+    console.log("updateOccurences:" + occurences)
+    document.getElementById('occurences').textContent = occurences;
+}
+
+function updateRank(rank) {
+    console.log("updateRank:" + rank)
+    document.getElementById('safety-rank').textContent = "#" + rank;
+   
 }
 
 // Iteration 4:
@@ -516,38 +563,39 @@ var url;
 var urlParams = new URLSearchParams(window.location.search);
 var locationFilter = urlParams.get('police_ID');
 
-function updateLocationNameFromID(policeID) {
-    // Loop through each layer in the GeoJSON layer
-    polygonJSON.eachLayer(function(layer) {
-        // Check if the layer's feature has the same policeID as the one passed
-        if (layer.feature.properties.policeID === policeID) {
-            // Update the HTML element with the corresponding policeName
-            document.getElementById('location-name').textContent = layer.feature.properties.policeName;
-            return; // Exit the loop once the matching polygon is found
-        }
-    });
-}
-
+// FILTER CRIME BY POLICE ID IN URL
 function filterCrime(ID) {
-    console.log("Filter crime function called");
-    // document.getElementById('Robberies').textContent = ID; - Testing showing active policeID
     locationFilter = ID;
-    console.log("ID:" + ID);
-    console.log("locationFilter:" + ID);
+    console.log("locationFilter:" + locationFilter)
     url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29";
     updateLocationNameFromID(locationFilter);
 }
 
-document.getElementById("filterButton").addEventListener("click", function() {
-    console.log("Location Filter: " + locationFilter);
-   //url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29";
-   url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29#:~:text=to%20Selected%20Area-,User%20Reviews,-Most%20recent"
+document.getElementById("filterButton").addEventListener("click", async function() {
+    url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29#:~:text=to%20Selected%20Area-,User%20Reviews,-Most%20recent"
     window.location.href = url;
 });
+
+// Print clicked location name above map
+function updateLocationNameFromID(policeID) { 
+    console.log("updateLocationNameFromID policeID:", policeID)
+        // Loop through each layer in the GeoJSON layer
+        polygonJSON.eachLayer(function(layer) {
+            // Check if the layer's feature has the same policeID as the one passed
+            if (layer.feature.properties.policeID == policeID) {
+                // Update the HTML element with the corresponding policeName
+                document.getElementById('location-name').textContent = layer.feature.properties.policeName;
+                document.getElementById('occurences').textContent = layer.feature.properties.occurences;
+                document.getElementById('safety-rank').textContent = "#" + layer.feature.properties.rank;
+                return; // Exit the loop once the matching polygon is found
+            }
+        });
+    }
 
 
 // Wait for the page to be fully loaded before calling updateLocationNameFromID
 window.addEventListener('load', function() {
+    console.log("Page calling updateLNByID with: " + locationFilter )
     // Call updateLocationNameFromID with the locationFilter
     updateLocationNameFromID(locationFilter);
 });

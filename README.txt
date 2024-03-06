@@ -49,3 +49,7 @@ Iteration 5:
   Codemy.com (2021). How To Register Users - Django Wednesdays #24. YouTube. Available at: https://www.youtube.com/watch?v=EqjRhO5CK6A&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=25 [Accessed 21 Feb. 2024].
   Codemy.com (2021). How To Add Database Forms To A Web Page - Django Wednesdays #7. YouTube. Available at: https://www.youtube.com/watch?v=CVEKe39VFu8&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=7 [Accessed 21 Feb. 2024].
   Codemy.com (2021). Add Venue Owner - Django Wednesdays #29. YouTube. Available at: https://www.youtube.com/watch?v=fXKLLwdryHQ&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=29 [Accessed 22 Feb. 2024].
+  Codemy.com (2021). Add Extra Registration Fields - Django Wednesdays #25. YouTube. Available at: https://www.youtube.com/watch?v=HdrOcreAXKk [Accessed 20 Feb. 2024].
+  Codemy.com (2021). Style Django Registration Forms - Django Wednesdays #26. YouTube. Available at: https://www.youtube.com/watch?v=XapMxdIyLM8 [Accessed 21 Feb. 2024].
+  ChatGPT (2024). 'In the review form, instead of asking for policeID, i want it to ask for policeName from a dropdown, and depending on dopdown selected save it back as policeID in database. i dont want the user seeing the policeID. This is the current code for my models, from, and views.'
+  Django Software Foundation (2022). change label of a field in a form. [online] Django Forum. Available at: https://forum.djangoproject.com/t/change-label-of-a-field-in-a-form/14227 [Accessed 23 Feb. 2024].

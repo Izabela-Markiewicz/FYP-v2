@@ -6,6 +6,7 @@ from .models import CrimeRecord, PoliceDivision
 from users.models import User, Review
 from django.contrib.auth.models import User
 from django.core.serializers import serialize
+from django.db.models import Avg
 
 # Requests to dispaly html pages
 
@@ -41,12 +42,19 @@ def show_map(request):
         review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors)
         crime_list = crime_list.filter(policeID__policeName__icontains=dropdown_sectors)
 
+
+    # Iteration 6:
+    # AVG User Reviews
+    approved_reviews = Review.objects.filter(approved=True)
+    avg_rating = approved_reviews.aggregate(Avg('feelRating'))['feelRating__avg']
+
     context = {
         'review_list' : review_list,
         'police_list' : police_list,
-        'crime_list': crime_list
+        'crime_list': crime_list,
+        'avg_rating' : avg_rating,
     }
-
+          
     return render(request, 'map.html', context)             
 
 
@@ -78,13 +86,13 @@ def show_crime(request):
         crime_list = crime_list.filter(policeID__policeName__icontains=sector_like_query)
 
     if is_valid_queryparam(crime_type_query):
-        crime_list = crime_list.filter(crimeType__icontains=crime_type_query) # check that title contains query that you put in
+        crime_list = crime_list.filter(crimeType__icontains=crime_type_query)
 
     if is_valid_queryparam(policeID_query):
-        crime_list = crime_list.filter(policeID__exact=policeID_query) # check that title contains query that you put in
+        crime_list = crime_list.filter(policeID__exact=policeID_query) 
 
     if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Cork (All)':
-        crime_list = crime_list.filter(policeID__policeName__icontains=dropdown_sectors) # check that title contains query that you put in
+        crime_list = crime_list.filter(policeID__policeName__icontains=dropdown_sectors) 
     
     context = {
         'crime_list' : crime_list,
@@ -111,13 +119,14 @@ def show_reviews(request):
         review_list = review_list.filter(policeID__policeName__icontains=sector_like_query)
 
     if is_valid_queryparam(policeID_query):
-        review_list = review_list.filter(policeID__exact=policeID_query) # check that title contains query that you put in
+        review_list = review_list.filter(policeID__exact=policeID_query)
 
     if is_valid_queryparam(dropdown_sectors) and dropdown_sectors != 'Cork (All)':
-        review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors) # check that title contains query that you put in
+        review_list = review_list.filter(policeID__policeName__icontains=dropdown_sectors) 
     
 
     # Iteration 5:
+    # Update record 
     review_author = User.objects.get(pk=Review.author)
     context = {
         'review_list' : review_list,
@@ -125,6 +134,8 @@ def show_reviews(request):
 
     }
     return render(request, 'map.html', context) # Can now reference crime records from DB in html
+
+
 
 """
 REFERENCES:
