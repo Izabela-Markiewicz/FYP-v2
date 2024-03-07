@@ -78,7 +78,7 @@
                         <div class="col-lg-4 order-lg-1" style="padding-top: 15px">
                             <div class="p-3 rounded-big shadow text-center mx-auto" style="text-align: center">
                                 {% if avg_rating %}
-                                <h5 class="display-4" id='user-rating'><b>{{ avg_rating|floatformat:1 }}</b></h5>
+                                <h5 class="display-4" id='user-rating'><b>{{ avg_rating|floatformat:1 }} /5 </b></h5>
                                 {% else %}
                                 <h5 class="display-4" id='user-rating'><b>None</b></h5>
                                 {% endif %}

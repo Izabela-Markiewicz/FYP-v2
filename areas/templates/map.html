@@ -116,7 +116,7 @@
                             <div class="col-md-6 text-center">
                                 <h2 class="form-label">Area Search</h2>
                                 
-                                <form id="dropdown">
+                                <form id="dropdown-form">
                                     <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
                                         <option selected>Cork (All)</option>
                                         <!-- Show all unique values of police departments, i.e., sectors-->
@@ -124,7 +124,7 @@
                                         <option value="{{ PoliceDivision.policeID }}">{{ PoliceDivision.policeName }}</option>
                                         {% endfor %}
                                     </select>
-                                    <input type="hidden" name="locationFilter" id="locationFilter">
+                                    <input type="hidden" name="dropdown-submit" id="dropdown-submit">
                                     <button type="submit" class="btn btn-primary btn-block mt-3" style="width: 300px">Search</button>
                                 </form>
 
@@ -277,58 +277,6 @@
     </section>
        
 
-    
-
-        <!-- Iteration 2 -->    
-        <!-- AREA ANALYTICS-->
-        <!-- 
-        <section id="area-analytics">
-            <div class="container px-5">
-
-                <!-- Analytics Tiles 
-                <div class="row align-items-center"> 
-                        <!-- Metric 1 
-                        <div class="col">
-                            <div class="p-5" style="text-align:center">
-                                <h2 class="display-4" id="Robberies">{{ my_variable }}</h2>
-                                <h3>Robberies</h3>
-                                <h6>In 2022</h6>
-                            </div>
-                        </div>
-
-                        <!-- Metric 2 
-                        <div class="col">
-                            <div class="p-5" style="text-align:center">
-                                <h2 class="display-4">34</h2>
-                                <h3>Assaults</h3>
-                                <h6>In 2022</h6>
-                            </div>
-                        </div>
-                    
-
-                        <!-- Metric 3 
-                        <div class="col">
-                            <div class="p-5" style="text-align:center">
-                                <h2 class="display-4">26</h2>
-                                <h3>Unsocial Behaviour</h3>
-                                <h6>In 2022</h6>
-                            </div>
-                        </div>
-
-                        <!-- Metric 4
-                        <div class="col">
-                            <div class="p-5" style="text-align:center">
-                                <h2 class="display-4">56</h2>
-                                <h3>Drug Related</h3>
-                                <h6>In 2022</h6>
-                            </div>
-                        </div>   
-                </div>
-            </div>
-        </section>    
-
-    
-    -->
 
         <!-- Footer-->
         <footer class="py-5 bg-black">
@@ -600,15 +548,21 @@ document.getElementById('dropdown').addEventListener('submit', function(event) {
     // Prevent the form from being submitted normally
     event.preventDefault();
 
-    // Get the selected police division's ID
-    const selectedPoliceDivisionID = document.getElementById('dropdown_sectors').value;
+    // Get the selected police division's name
+    const selectedPoliceDivisionName = document.getElementById('dropdown_sectors').value;
 
     // Set the value of the locationFilter input field
-    document.getElementById('locationFilter').value = selectedPoliceDivisionID;
-    console.log("dropwdown value:" + locationFilter)
+    document.getElementById('locationFilter').value = selectedPoliceDivisionName;
+    console.log("dropdown value:" + selectedPoliceDivisionName);
 
-    // Submit the form
-    event.target.submit();
+    // Loop through each layer in the GeoJSON layer group
+    polygonJSON.eachLayer(function(layer) {
+        // Check if the policeName property of the current layer matches the selected police division
+        if (layer.feature.properties.policeName === selectedPoliceDivisionName) {
+            // If it does, show the value of its 'rank' property in the 'safety-rank' element
+            document.getElementById('safety-rank').textContent = "#" + layer.feature.properties.rank;
+        }
+    });
 });
 
 // Print clicked location name above map
