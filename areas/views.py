@@ -145,13 +145,13 @@ def show_reviews(request):
 
     # Iteration 5:
     # Update record 
-    review_author = User.objects.get(pk=Review.author)
+    review_owner = User.objects.get(pk=Review.owner)
     context = {
         'review_list' : review_list,
         'police_list' : police_list,
 
     }
-    return render(request, 'map.html', context) # Can now reference crime records from DB in html
+    return render(request, 'reviews.html', context) # Can now reference crime records from DB in html
 
 
 

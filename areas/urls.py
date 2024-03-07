@@ -12,6 +12,7 @@ urlpatterns = [
     path('', views.landing_page, name='landing_page'), # Iteration 1
     path('crime/', views.show_crime, name='crime_page'), # Iteration 1
     path('reviews/average_rating', views.average_rating, name='average_rating'), # Iteration 6
+    path('browse_reviews/', views.show_reviews, name='review_page'), # Iteration 1
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

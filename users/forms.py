@@ -32,29 +32,30 @@ class RegisterUserForm(UserCreationForm):
 # Create User Review
 # REF: How To Add Database Forms To A Web Page [Youtube] (Codemy.com, 2021)
 class ReviewForm(ModelForm):
+    # Define the valid choices for feelRating
+    RATING_CHOICES = [(i/2, str(i/2)) for i in range(2, 11)]
+
     # Change PoliceID input to policeName dropdown
-    # REF: ChatGPT (2024): 'In the review form, instead of asking for policeID, i want it to ask for policeName from a dropdown, and depending on dopdown selected save it back as policeID in database. i dont want the user seeing the policeID. This is the current code for my models, from, and views.'
     policeName = forms.ModelChoiceField(queryset=PoliceDivision.objects.all(), empty_label=None, 
                                          widget=forms.Select(attrs={'class': 'form-control'}), 
                                          label='Select Area')
-   
+    # Use a ChoiceField for feelRating
+    feelRating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+
     class Meta: 
         model = Review
-        fields = ('policeName', 'reviewText', 'feelRating', 'image')
+        fields = ('policeName', 'feelRating', 'reviewText', 'image')
 
-    	# REF: Change Labels in Django Form (Django Software Foundation, 2022)
         labels = {
-            'reviewText': 'Review',
+            'reviewText': 'Review (Optional)',
             'feelRating': 'Safety Rating (1-5)',
             'image': 'Upload Image (Optional)',
         }
 
         widgets = {
             'reviewText': forms.Textarea(attrs={'class' : 'form-control', 'placeholder':'Write your review here', 'rows': 4}),
-            'feelRating' : forms.NumberInput(attrs={'class' : 'form-control', 'placeholder':'Area Rating / 5'}),
         }
 
-    # REF: ChatGPT (2024): 'In the review form, instead of asking for policeID, i want it to ask for policeName from a dropdown, and depending on dopdown selected save it back as policeID in database. i dont want the user seeing the policeID. This is the current code for my models, from, and views.'
     def save(self, commit=True):
         review = super().save(commit=False)
         police_name = self.cleaned_data['policeName']
@@ -63,7 +64,6 @@ class ReviewForm(ModelForm):
         if commit:
             review.save()
         return review  
-
 
 """
 REFERENCES:

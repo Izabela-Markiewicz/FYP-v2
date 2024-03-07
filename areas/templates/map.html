@@ -123,17 +123,17 @@
                                 <h2 class="form-label">Area Search</h2>
                                 
                                 <form id="dropdown">
-                                <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
-                                    <option selected>Cork (All)</option>
+                                    <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
+                                        <option selected>Cork (All)</option>
+                                        <!-- Show all unique values of police departments, i.e., sectors-->
+                                        {% for PoliceDivision in police_list %}
+                                        <option value="{{ PoliceDivision.policeID }}">{{ PoliceDivision.policeName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="hidden" name="locationFilter" id="locationFilter">
+                                    <button type="submit" class="btn btn-primary btn-block mt-3" style="width: 300px">Search</button>
+                                </form>
 
-                                    <!-- Show all unique values of police deparments, ie sectors-->
-                                    {% for PoliceDivision in police_list %}
-                                    <option value="{{ PoliceDivision.policeName }}">{{ PoliceDivision.policeName }}</option>
-                                    {% endfor %}
-
-                                </select>
-                                <button type="submit" class="btn btn-primary btn-block mt-3" style="width: 300px">Search</button>
-                            </form>
                             </div>
                         </div>
 
@@ -199,6 +199,12 @@
             <button id="filterButton" type="submit" class="btn btn-primary btn-block mt-3" style="width: 300px">Filter to Selected Area</button>
         </div> 
 
+        <!-- Iteration 6 -->    
+        <!-- Go To Reviews --> 
+        <div class="container align-items-center d-flex justify-content-center" style="padding-top: 30px;">
+            <a href="{% url 'review_page' %}" class="btn btn-primary btn-block mt-3" style="width: 300px">Go to Reviews</a>
+        </div> 
+
     <!-- Iteration 4: -->
     <!-- User Reviews -->
     <!-- REF: Sample Comment Cards (MDBoostrap, 2024) -->
@@ -219,7 +225,7 @@
                             {% block userReviews %}
                             {% if review_list %}
                                 {% for Review in review_list %}
-                                    {% if Review.approved %}
+                                    {% if Review.approved and Review.reviewText is not none%}
                                         <div class="card mb-3 border-0">
                                             <div class="card-body d-flex">
                                                 <!-- Avatar icon column -->
@@ -456,7 +462,7 @@ function onEachFeature(feature, layer) {
             updateOccurences(feature.properties.occurences);
             updateRank(feature.properties.rank);
             updateLocationName(feature.properties.policeName);
-           // updateRating(feature.properties.policeID)
+            updateRating(feature.properties.policeID)
             filterCrime(feature.properties.policeID);
 
         }
@@ -587,6 +593,22 @@ document.getElementById("filterButton").addEventListener("click", function() {
         window.location.href = url;
     });
 });
+
+document.getElementById('dropdown').addEventListener('submit', function(event) {
+    // Prevent the form from being submitted normally
+    event.preventDefault();
+
+    // Get the selected police division's ID
+    const selectedPoliceDivisionID = document.getElementById('dropdown_sectors').value;
+
+    // Set the value of the locationFilter input field
+    document.getElementById('locationFilter').value = selectedPoliceDivisionID;
+    console.log("dropwdown value:" + locationFilter)
+
+    // Submit the form
+    event.target.submit();
+});
+
 // Print clicked location name above map
 function updateLocationNameFromID(policeID) { 
     console.log("updateLocationNameFromID policeID:", policeID)
