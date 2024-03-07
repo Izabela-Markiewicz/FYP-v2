@@ -32,7 +32,9 @@ class RegisterUserForm(UserCreationForm):
 # Create User Review
 # REF: How To Add Database Forms To A Web Page [Youtube] (Codemy.com, 2021)
 class ReviewForm(ModelForm):
-    # Define the valid choices for feelRating
+    # Iteration 6
+    # Onlt allow increments of 0.5 for feelRating
+    # REF: (Copilot, 2024) - 'How do I allow only increments of 0.5?'
     RATING_CHOICES = [(i/2, str(i/2)) for i in range(2, 11)]
 
     # Change PoliceID input to policeName dropdown
@@ -76,6 +78,8 @@ Iteration 5:
     ChatGPT (2024). 'In the review form, instead of asking for policeID, i want it to ask for policeName from a dropdown, and depending on dopdown selected save it back as policeID in database. i dont want the user seeing the policeID. This is the current code for my models, from, and views.'
     Django Software Foundation (2022). change label of a field in a form. [online] Django Forum. Available at: https://forum.djangoproject.com/t/change-label-of-a-field-in-a-form/14227 [Accessed 23 Feb. 2024].
 
+Iteration 6:
+    Copilot (2024). 'How do I allow only increments of 0.5?'
 ‌
 ‌
 ‌

@@ -18,22 +18,12 @@
         <!-- Iteration 3: -->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
         <style>
-            #crime-table thead th {
-                position: sticky;
-                top: 0;
-                background-color: #ffffff; /* Adjust the background color as needed */
-                z-index: 1;
-            }
         </style>
        
     </head>
 
+    <!-- Iteration 6-->
     <body>
-           
-        <!-- Iteration 4 --> 
-        <!-- HTML body copied from map.html -->
-
-        <!-- Navigation-->
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
             <div class="container px-5">
@@ -68,86 +58,22 @@
         <header class="masthead text-center text-white has-bg-img" style="background-image:url({% static 'assets/img/cork1.jpg' %})">
             <div class="masthead-content has-bg-img">        
                 <div class="container px-5">
-                    <h1 class="masthead-heading mb-0" style="text-shadow: 0 0 32px black, 0 0 32px black, 0 0 32px black, 0 0 32px black">Crime Data</h1>
-                    <h4 style="text-shadow: 0 0 32px black, 0 0 32px black, 0 0 32px black, 0 0 32px black">Official government crime records</h4>
+                    <h1 class="masthead-heading mb-0" style="text-shadow: 0 0 32px black, 0 0 32px black, 0 0 32px black, 0 0 32px black">{{ police_division.policeName }}</h1>
+                    <h4 style="text-shadow: 0 0 32px black, 0 0 32px black, 0 0 32px black, 0 0 32px black">See all user reviews</h4>
                 </div>
             </div>
         </header>
 
-
-        <!-- Iteration 4 -->  
-        <!-- Search Bars-->
-        <!-- REF: Filtering form Django (Freire, 2019) Youtube Video Playlist -->
-        <section>
-            <div class='container px-5' style="padding-top:10px">
-                <form method="GET" action=".">
-                    <h4 style="padding-bottom:20px">Filter Results</h4>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="dropdown_sectors" class="form-label">Sector Name (Dropdown)</label>
-                                    <select id="dropdown_sectors" class="form-select" name="dropdown_sectors">
-                                        <option selected>Cork (All)</option>
-                                        {% for PoliceDivision in police_list %}
-                                            <option value="{{ PoliceDivision.policeName}}"> {{ PoliceDivision.policeName}} </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="policeName-search" class="form-label">Sector Name Like...</label>
-                                    <div class="input-group">
-                                        <input type="search" class="form-control" placeholder="Sector Name..." id="policeName-search" name="sector_like">
-                                        <span class="input-group-text bg-transparent">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="crime-search" class="form-label">Crime Type</label>
-                                    <div class="input-group">
-                                        <input type="search" class="form-control" placeholder="Crime Type..." id="crime-search" name="crime_type">
-                                        <span class="input-group-text bg-transparent">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="policeID-search" class="form-label">Police ID</label>
-                                    <div class="input-group">
-                                        <input type="number" min="1" max="12" class="form-control" placeholder="Police ID..." id="policeID-search" name="police_ID">
-                                        <span class="input-group-text bg-transparent">
-                                            <i class="fa fa-search"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="padding-top: 20px;">
-                        <div class="col-12 text-center">
-                            <button type="submit" class="btn btn-primary btn-lg">Filter</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </section>
-        
-        
-        
-
-        <hr />
-
     
-
-        <!-- Iteration 4 --> 
-        <!-- CRIME STATS -->
+        <!-- Iteration 6 --> 
+        <!-- Filtered User Reviews -->
         <!-- REF: Styled Tables (Bootstrap, 2024) -->
-        <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] -->
+        <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] 
+        <section style="padding-bottom: 20px;">
+            <div class="container">
+                <h1>All Reviews for {{ police_division.policeName }}</h1>
+        </section>-->
+
         <section style="background-color: #f5f5f5;">
             <div class="container my-5 py-5">
                 <div class="row d-flex justify-content-center">
@@ -162,9 +88,9 @@
         
                                 <!-- Looping Through Tiles -->
                                 {% block userReviews %}
-                                {% if review_list %}
-                                    {% for Review in review_list %}
-                                        {% if Review.approved %}
+                                {% if review_filtered %}
+                                    {% for Review in review_filtered %}
+                                        {% if Review.approved  and Review.reviewText is not none %}
                                             <div class="card mb-3 border-0">
                                                 <div class="card-body d-flex">
                                                     <!-- Avatar icon column -->

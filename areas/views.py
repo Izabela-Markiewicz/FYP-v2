@@ -7,6 +7,7 @@ from users.models import User, Review
 from django.contrib.auth.models import User
 from django.core.serializers import serialize
 from django.db.models import Avg
+from django.shortcuts import get_object_or_404
 
 # Requests to dispaly html pages
 
@@ -59,6 +60,7 @@ def show_map(request):
         'police_list' : police_list,
         'crime_list': crime_list,
         'avg_rating' : avg_rating,
+        'locationFilter': location_filter,
     }
           
     return render(request, 'map.html', context)             
@@ -153,8 +155,25 @@ def show_reviews(request):
     }
     return render(request, 'reviews.html', context) # Can now reference crime records from DB in html
 
+# Iteration 6:
+def show_review(request):
+    locationFilter = request.GET.get('locationFilter')
 
+    if locationFilter:
+        review_filtered = Review.objects.filter(policeID=locationFilter).order_by('-publishDate')
+        police_division = get_object_or_404(PoliceDivision, policeID=locationFilter)
+    else:
+        review_filtered = Review.objects.all().order_by('-publishDate')
+        police_division = None
 
+    police_list = PoliceDivision.objects.all()
+
+    context = {
+        'review_filtered': review_filtered,
+        'police_list': police_list,
+        'police_division': police_division,
+    }
+    return render(request, 'reviews.html', context)
 """
 REFERENCES:
 

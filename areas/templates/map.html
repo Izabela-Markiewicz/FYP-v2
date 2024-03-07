@@ -202,8 +202,8 @@
         <!-- Iteration 6 -->    
         <!-- Go To Reviews --> 
         <div class="container align-items-center d-flex justify-content-center" style="padding-top: 30px;">
-            <a href="{% url 'review_page' %}" class="btn btn-primary btn-block mt-3" style="width: 300px">Go to Reviews</a>
-        </div> 
+            <button id="go-to-review" type="submit" class="btn btn-primary btn-block mt-3" style="width: 300px">See Reviews for this Area</button>
+       </div>
 
     <!-- Iteration 4: -->
     <!-- User Reviews -->
@@ -225,7 +225,7 @@
                             {% block userReviews %}
                             {% if review_list %}
                                 {% for Review in review_list %}
-                                    {% if Review.approved and Review.reviewText is not none%}
+                                    {% if Review.approved and Review.reviewText is not none %}
                                         <div class="card mb-3 border-0">
                                             <div class="card-body d-flex">
                                                 <!-- Avatar icon column -->
@@ -592,6 +592,13 @@ document.getElementById("filterButton").addEventListener("click", function() {
         url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29#:~:text=to%20Selected%20Area-,User%20Reviews,-Most%20recent"
         window.location.href = url;
     });
+});
+
+document.getElementById("go-to-review").addEventListener("click", function() {
+    if (locationFilter) {
+        console.log("location!!!:" + locationFilter);
+        window.location.href = "/browse_reviews/?locationFilter=" + locationFilter;
+    }
 });
 
 document.getElementById('dropdown').addEventListener('submit', function(event) {
