@@ -169,16 +169,16 @@
             <div class="container px-5" style="padding-top: 30px;">
                 <div class="row gx-5 align-items-center"> 
                     <!-- First Column -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-4" style="padding-top: 15px">
                         <div class="p-3 rounded-big shadow" style="text-align: center; box-shadow: 0px 0px 10px rgba(0, 0, 0, 10);">
-                                <h5 class="display-4" id='user-rating'><b>{{ avg_rating|floatformat:"1" }}</b></h5>
+                                <h5 class="display-4" id='user-rating'><b>{{ avg_rating|default:"N/A"|floatformat:"1" }}</b></h5>
                             <h4>User Safety Rating</h5>
                         </div>
                     </div>
                     <!-- Second Column -->
                     <div class="col-lg-4" style="padding-top: 15px">
                         <div class="p-3 rounded-big shadow" style="text-align: center">
-                            <h5 class="display-4" id='safety-rank'><b>#</b></h5>
+                            <h5 class="display-4" id='safety-rank'><b>Blarney</b></h5>
                             <h4>Safest in Cork</h4>
                         </div>
                     </div>
@@ -456,6 +456,7 @@ function onEachFeature(feature, layer) {
             updateOccurences(feature.properties.occurences);
             updateRank(feature.properties.rank);
             updateLocationName(feature.properties.policeName);
+           // updateRating(feature.properties.policeID)
             filterCrime(feature.properties.policeID);
 
         }
@@ -484,6 +485,7 @@ var geocoder = L.Control.geocoder({
                 updateOccurences(layer.feature.properties.occurences);
                 updateRank(layer.feature.properties.rank);
                 updateLocationName(layer.feature.properties.policeName);
+                updateRating(layer.feature.properties.policeID);
                 filterCrime(layer.feature.properties.policeID);
                 found = true;
             }
@@ -539,6 +541,7 @@ var searchControl = new L.Control.Search({
 
 map.addControl(searchControl);
 
+// Iteration 6
 // Function to update the location name in HTML
 function updateLocationName(name) {
     console.log("updateLocationName:" + name)
@@ -552,9 +555,15 @@ function updateOccurences(occurences) {
 
 function updateRank(rank) {
     console.log("updateRank:" + rank)
-    document.getElementById('safety-rank').textContent = "#" + rank;
-   
+    document.getElementById('safety-rank').textContent = "#" + rank;  
 }
+
+function updateRating(ID) {
+    console.log("updateRating:" + avg_rating)
+    document.getElementById('user-rating').textContent = avg_rating;  
+}
+  
+
 
 // Iteration 4:
 // Filtering crime by clicked sector
@@ -569,29 +578,54 @@ function filterCrime(ID) {
     console.log("locationFilter:" + locationFilter)
     url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29";
     updateLocationNameFromID(locationFilter);
+    fetchAverageRating(locationFilter);  // Fetch the new average rating
 }
 
-document.getElementById("filterButton").addEventListener("click", async function() {
-    url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29#:~:text=to%20Selected%20Area-,User%20Reviews,-Most%20recent"
-    window.location.href = url;
+document.getElementById("filterButton").addEventListener("click", function() {
+    fetchAverageRating(locationFilter).then(() => {
+        url = "http://127.0.0.1:8000/map/?sector_like=&police_ID=" + locationFilter + "&dropdown_sectors=Cork+%28All%29#:~:text=to%20Selected%20Area-,User%20Reviews,-Most%20recent"
+        window.location.href = url;
+    });
 });
-
 // Print clicked location name above map
 function updateLocationNameFromID(policeID) { 
     console.log("updateLocationNameFromID policeID:", policeID)
-        // Loop through each layer in the GeoJSON layer
-        polygonJSON.eachLayer(function(layer) {
-            // Check if the layer's feature has the same policeID as the one passed
-            if (layer.feature.properties.policeID == policeID) {
-                // Update the HTML element with the corresponding policeName
-                document.getElementById('location-name').textContent = layer.feature.properties.policeName;
-                document.getElementById('occurences').textContent = layer.feature.properties.occurences;
-                document.getElementById('safety-rank').textContent = "#" + layer.feature.properties.rank;
-                return; // Exit the loop once the matching polygon is found
-            }
-        });
-    }
+    // Loop through each layer in the GeoJSON layer
+    polygonJSON.eachLayer(function(layer) {
+        // Check if the layer's feature has the same policeID as the one passed
+        if (layer.feature.properties.policeID == policeID) {
+            // Update the HTML element with the corresponding policeName
+            document.getElementById('location-name').textContent = layer.feature.properties.policeName;
+            document.getElementById('occurences').textContent = layer.feature.properties.occurences;
+            document.getElementById('safety-rank').textContent = "#" + layer.feature.properties.rank;
+            return; // Exit the loop once the matching polygon is found
+        }
+    });
+}
 
+async function fetchAverageRating(locationFilter) {
+    // Construct the URL
+    console.log("fetchAverageRating calle. location");
+    const url = `http://127.0.0.1:8000/reviews/average_rating?locationFilter=${locationFilter}`;
+
+    // Make the GET request
+    const response = await fetch(url);
+
+    // Parse the response as JSON
+    const data = await response.json();
+
+    // Extract the average rating
+    const averageRating = data.averageRating;
+
+    // Update the rating
+    updateRating(averageRating);
+}
+
+function updateRating(averageRating) {
+    console.log("updateRating:" + averageRating);
+    const formattedRating = parseFloat(averageRating).toFixed(1);
+    document.getElementById('user-rating').textContent = formattedRating;   
+}
 
 // Wait for the page to be fully loaded before calling updateLocationNameFromID
 window.addEventListener('load', function() {

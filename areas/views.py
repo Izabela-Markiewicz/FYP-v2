@@ -45,8 +45,14 @@ def show_map(request):
 
     # Iteration 6:
     # AVG User Reviews
-    approved_reviews = Review.objects.filter(approved=True)
-    avg_rating = approved_reviews.aggregate(Avg('feelRating'))['feelRating__avg']
+    #approved_reviews = Review.objects.filter(approved=True)
+    #avg_rating = approved_reviews.aggregate(Avg('feelRating'))['feelRating__avg']
+    location_filter = request.GET.get('locationFilter')
+    if location_filter and Review.objects.filter(policeID=location_filter).exists():
+        avg_rating = Review.objects.filter(policeID=location_filter).aggregate(Avg('feelRating'))['feelRating__avg']
+    else:
+        avg_rating = Review.objects.filter(approved=True).aggregate(Avg('feelRating'))['feelRating__avg']
+
 
     context = {
         'review_list' : review_list,
@@ -57,6 +63,18 @@ def show_map(request):
           
     return render(request, 'map.html', context)             
 
+def average_rating(request):
+    # Get the locationFilter query parameter
+    locationFilter = request.GET.get('locationFilter')
+
+    # Query the Review model
+    reviews = Review.objects.filter(policeID=locationFilter)
+
+    # Calculate the average feelRating
+    averageRating = reviews.aggregate(Avg('feelRating'))['feelRating__avg']
+
+    # Return the average rating as JSON
+    return JsonResponse({'averageRating': averageRating})
 
 # Landing Page
 def landing_page(request):

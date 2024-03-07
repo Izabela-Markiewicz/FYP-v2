@@ -11,6 +11,8 @@ urlpatterns = [
     #REF: Change landing page (9CV9 HR, 2019)
     path('', views.landing_page, name='landing_page'), # Iteration 1
     path('crime/', views.show_crime, name='crime_page'), # Iteration 1
+    path('reviews/average_rating', views.average_rating, name='average_rating'), # Iteration 6
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
