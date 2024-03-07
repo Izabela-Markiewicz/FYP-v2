@@ -56,7 +56,7 @@ class ReviewForm(ModelForm):
 
         widgets = {
             'reviewText': forms.Textarea(attrs={'class' : 'form-control', 'placeholder':'Write your review here', 'rows': 4}),
-            'feelRating': forms.Select(attrs={'class': 'form-control'}),
+            'feelRating': forms.Select(attrs={'class': 'form-control dropdown-toggle', 'data-toggle': 'dropdown'}),
         }
 
     def save(self, commit=True):
