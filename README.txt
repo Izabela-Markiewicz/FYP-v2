@@ -1,7 +1,7 @@
 Project: Safe Explorer
 Creator: Izabela Markiewicz
 Date: Academic Year 2023/2024
-Version: Iteration 2
+Version: Iteration 6
 ---------------------------------------------
 
 References can be found:
