@@ -18,6 +18,10 @@
         <!-- Iteration 3: -->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
         <style>
+            .rounded-big {
+                border-radius: 20px;
+                border: 2px solid #EE0979;
+            }
         </style>
        
     </head>
@@ -64,16 +68,39 @@
             </div>
         </header>
 
-    
+        <!-- Iteration 6 -->
+        <!-- Area specific review stats-->
+        <section id="review-stats">
+            <div class="container px-5" style="padding-top:30px">
+                <div class="row gx-5 align-items-center justify-content-center"> 
+                    <!-- Left: Average User Rating-->  
+                  
+                        <div class="col-lg-4 order-lg-1" style="padding-top: 15px">
+                            <div class="p-3 rounded-big shadow text-center mx-auto" style="text-align: center">
+                                {% if avg_rating %}
+                                <h5 class="display-4" id='user-rating'><b>{{ avg_rating|floatformat:1 }}</b></h5>
+                                {% else %}
+                                <h5 class="display-4" id='user-rating'><b>None</b></h5>
+                                {% endif %}
+                                <h4>Avg. User Rating</h4>
+                            </div>
+                        </div>
+          
+
+                    <!-- Right: Total No. of Reviews  -->
+                    <div class="col-lg-4 order-lg-2" style="padding-top: 15px">
+                        <div class="p-3 rounded-big shadow text-center mx-auto" style="text-align: center">
+                            <h5 class="display-4" id='count-reviews'><b>{{ count_reviews }}</b></h5>
+                            <h4>Total No. of Reviews</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <!-- Iteration 6 --> 
         <!-- Filtered User Reviews -->
-        <!-- REF: Styled Tables (Bootstrap, 2024) -->
-        <!-- REF: Showing Items fron DB (Codemy.com, 2021) Youtube [18:41] 
-        <section style="padding-bottom: 20px;">
-            <div class="container">
-                <h1>All Reviews for {{ police_division.policeName }}</h1>
-        </section>-->
-
         <section style="background-color: #f5f5f5;">
             <div class="container my-5 py-5">
                 <div class="row d-flex justify-content-center">

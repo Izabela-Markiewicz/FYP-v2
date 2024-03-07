@@ -33,29 +33,30 @@ class RegisterUserForm(UserCreationForm):
 # REF: How To Add Database Forms To A Web Page [Youtube] (Codemy.com, 2021)
 class ReviewForm(ModelForm):
     # Iteration 6
-    # Onlt allow increments of 0.5 for feelRating
+    # Only allow increments of 0.5 for feelRating
     # REF: (Copilot, 2024) - 'How do I allow only increments of 0.5?'
-    RATING_CHOICES = [(i/2, str(i/2)) for i in range(2, 11)]
+    RATING_CHOICES = [(None, 'SELECT : Unsafe 1 - 5 Very Safe')] + [(i/2, str(i/2)) for i in range(2, 11)]
 
     # Change PoliceID input to policeName dropdown
     policeName = forms.ModelChoiceField(queryset=PoliceDivision.objects.all(), empty_label=None, 
                                          widget=forms.Select(attrs={'class': 'form-control'}), 
                                          label='Select Area')
     # Use a ChoiceField for feelRating
-    feelRating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    feelRating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}), required=True)
 
     class Meta: 
         model = Review
         fields = ('policeName', 'feelRating', 'reviewText', 'image')
 
         labels = {
-            'reviewText': 'Review (Optional)',
+            'reviewText': 'Comment (Optional)',
             'feelRating': 'Safety Rating (1-5)',
             'image': 'Upload Image (Optional)',
         }
 
         widgets = {
             'reviewText': forms.Textarea(attrs={'class' : 'form-control', 'placeholder':'Write your review here', 'rows': 4}),
+            'feelRating': forms.Select(attrs={'class': 'form-control'}),
         }
 
     def save(self, commit=True):

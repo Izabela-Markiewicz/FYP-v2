@@ -162,6 +162,9 @@ def show_review(request):
     if locationFilter:
         review_filtered = Review.objects.filter(policeID=locationFilter).order_by('-publishDate')
         police_division = get_object_or_404(PoliceDivision, policeID=locationFilter)
+        avg_rating = Review.objects.filter(policeID=locationFilter).aggregate(Avg('feelRating'))['feelRating__avg']
+        count_reviews = Review.objects.filter(policeID=locationFilter).count()
+
     else:
         review_filtered = Review.objects.all().order_by('-publishDate')
         police_division = None
@@ -172,6 +175,8 @@ def show_review(request):
         'review_filtered': review_filtered,
         'police_list': police_list,
         'police_division': police_division,
+        'avg_rating': avg_rating,
+        'count_reviews': count_reviews,
     }
     return render(request, 'reviews.html', context)
 """
