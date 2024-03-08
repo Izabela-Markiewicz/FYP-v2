@@ -187,6 +187,12 @@ def show_review(request):
         'count_reviews': count_reviews,
     }
     return render(request, 'reviews.html', context)
+
+# Iteration 6:
+# About Page
+def about(request):
+    return render(request, 'about.html') #Iteration 1
+
 """
 REFERENCES:
 
