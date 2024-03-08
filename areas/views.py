@@ -49,16 +49,17 @@ def show_map(request):
 
     # Iteration 6:
     # AVG User Reviews
-    #approved_reviews = Review.objects.filter(approved=True)
-    #avg_rating = approved_reviews.aggregate(Avg('feelRating'))['feelRating__avg']
     location_filter = request.GET.get('locationFilter')
     if location_filter and Review.objects.filter(policeID=location_filter).exists():
         avg_rating = Review.objects.filter(policeID=location_filter).aggregate(Avg('feelRating'))['feelRating__avg']
     else:
         avg_rating = Review.objects.filter(approved=True).aggregate(Avg('feelRating'))['feelRating__avg']
 
+    # Iteration 6:
+    # Count of approved reviews
     approved_reviews_count = Review.objects.filter(approved=True).count()
 
+    review_filtered = Review.objects.filter(approved=True)  
    
     context = {
         'review_list' : review_list,
@@ -67,6 +68,7 @@ def show_map(request):
         'avg_rating' : avg_rating,
         'locationFilter': location_filter,
         'approved_reviews_count': approved_reviews_count,
+        'review_filtered': review_filtered,
         
     }
           

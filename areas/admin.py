@@ -13,16 +13,6 @@ admin.site.register(PoliceDivision)
 admin.site.register(CrimeRecord)
 
 
-"""
-FOR FUTURE ITERATION
-
-# Admin Upload to DB using CSV
-#REF: Django Import Export (The Proton Guy, 2023)
-class CrimeRecordAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    pass
-admin.site.register(models.CrimeRecord, CrimeRecordAdmin)
-"""
-
 
 """
 REFERENCES:
