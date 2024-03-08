@@ -49,6 +49,7 @@ def show_map(request):
 
     # Iteration 6:
     # AVG User Reviews
+    # Github Copilot (2024) - 'how to calculate the average feelRating of all Review objects where pliceID == locationFilter'
     location_filter = request.GET.get('locationFilter')
     if location_filter and Review.objects.filter(policeID=location_filter).exists():
         avg_rating = Review.objects.filter(policeID=location_filter).aggregate(Avg('feelRating'))['feelRating__avg']
@@ -74,17 +75,15 @@ def show_map(request):
           
     return render(request, 'map.html', context)             
 
+# Iteration 6:
 def average_rating(request):
-    # Get the locationFilter query parameter
+    # REF: Github Copilot (2024) - 'how to calculate the average feelRating of all Review objects where pliceID == locationFilter'
     locationFilter = request.GET.get('locationFilter')
 
-    # Query the Review model
     reviews = Review.objects.filter(policeID=locationFilter)
 
-    # Calculate the average feelRating
     averageRating = reviews.aggregate(Avg('feelRating'))['feelRating__avg']
 
-    # Return the average rating as JSON
     return JsonResponse({'averageRating': averageRating})
 
 # Landing Page
@@ -196,6 +195,8 @@ Iteration 4:
     Freire, M. (2019). Build a dynamic filtering form with Django // 6 - Filtering by date and view count. YouTube. Available at: https://www.youtube.com/watch?v=n1_MQiSXyxw [Accessed 7 Feb. 2024].
     ChatGPT (2024).'how do i filter records in order of publishDate from newest to oldest'
 ‌
+Iteration 6:
+    Github Copilot (2024). 'how to calculate the average feelRating of all Review objects where pliceID == locationFilter'
 
 
 """

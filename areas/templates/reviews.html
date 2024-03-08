@@ -12,7 +12,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Safe Explorer</title>
-        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Iteration 3: -->
@@ -44,7 +44,6 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                               <a class="dropdown-item" href="{% url 'add_review' %}">Create a Review</a>
                               <a class="dropdown-item" href="{% url 'crime_page' %}">Browse Crime Data</a>
-                              <a class="dropdown-item" href="#">Edit Profile</a>
                             </div>
                           </li>
           
@@ -58,7 +57,7 @@
             </div>
         </nav>
 
-        <!-- Header -->
+        <!-- Header: Area Name -->
         <header class="masthead text-center text-white has-bg-img" style="background-image:url({% static 'assets/img/cork1.jpg' %})">
             <div class="masthead-content has-bg-img">        
                 <div class="container px-5">

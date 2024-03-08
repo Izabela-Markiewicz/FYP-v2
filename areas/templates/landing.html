@@ -14,7 +14,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Safe Explorer</title>
-        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -41,7 +41,6 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                       <a class="dropdown-item" href="{% url 'add_review' %}">Create a Review</a>
                       <a class="dropdown-item" href="{% url 'crime_page' %}">Browse Crime Data</a>
-                      <a class="dropdown-item" href="#">Edit Profile</a>
                     </div>
                   </li>
   
@@ -58,7 +57,9 @@
         <header class="masthead text-center text-white">
             <div class="masthead-content">
                 <div class="container px-5">
-                    <h1 class="masthead-heading mb-0">Safe Explorer</h1>
+                    <div class="d-flex align-items-center justify-content-center" style="max-width: 50%; margin: 0 auto;"> 
+                        <img src="{% static 'assets/img/logo.png' %}" alt="Logo" style="max-width: 100%; height: auto;">
+                    </div>
                     <h2 class="masthead-subheading mb-0">The Interactive Travel Safety Map</h2>
                     <!-- Iteration 2: -->
                     <!-- Button directing to Maps Page-->

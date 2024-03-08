@@ -10,7 +10,6 @@ admin.site.register(Review)
 # Iteration 6:
 # Show Reviews Pending Approval in Admin
 # REF: GitHub Copilt (2024) - 'i want to add to the admin view an option to 'View Reviews Pending Approval'. jsut as admin site loads all Review onjects, i want a place where it does the same thing, but only loads those where Review.approved == False
-
 class UnapprovedReview(Review):
     class Meta:
         proxy = True

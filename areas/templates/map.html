@@ -11,7 +11,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Safe Explorer</title>
-        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -76,7 +76,6 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                               <a class="dropdown-item" href="{% url 'add_review' %}">Create a Review</a>
                               <a class="dropdown-item" href="{% url 'crime_page' %}">Browse Crime Data</a>
-                              <a class="dropdown-item" href="#">Edit Profile</a>
                             </div>
                           </li>
           
@@ -172,8 +171,8 @@
             </div>
         </section>
         
-        <!-- Iteration 5 -->    
-        <!-- Filter Button --> 
+        <!-- Iteration 6 -->    
+        <!-- Filter Redirect Button --> 
         <div class="container align-items-center d-flex justify-content-center text-center" style="padding-top: 30px;">
             <div class="col">
                 <button id="go-to-review" type="submit" class="btn btn-primary btn-block mt-3 mx-auto" style="width: 300px">See Reviews for this Area</button>
@@ -335,6 +334,8 @@ function style(feature) {
         fillOpacity: 0.45,
     };
 }
+
+var info = L.control();
 
 // Iteration 3
 // HOVER/CLICK SECTOR ANIMATION + TOOLTIP

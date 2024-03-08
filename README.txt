@@ -55,4 +55,5 @@ Iteration 5:
   Django Software Foundation (2022). change label of a field in a form. [online] Django Forum. Available at: https://forum.djangoproject.com/t/change-label-of-a-field-in-a-form/14227 [Accessed 23 Feb. 2024].
 
 Iteration 6:
-  GitHub Copilt (2024) - 'i want to add to the admin view an option to 'View Reviews Pending Approval'. jsut as admin site loads all Review onjects, i want a place where it does the same thing, but only loads those where Review.approved == False
+  GitHub Copilot (2024) - 'i want to add to the admin view an option to 'View Reviews Pending Approval'. jsut as admin site loads all Review onjects, i want a place where it does the same thing, but only loads those where Review.approved == False
+  Github Copilot (2024) - 'how to calculate the average feelRating of all Review objects where pliceID == locationFilter'
