@@ -128,7 +128,11 @@
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                                             <div>
+                                                            {% if Review.anon %}
+                                                                <h6 class="fw-bold mb-1">Anonymous</h6>
+                                                            {% else %}
                                                                 <h6 class="fw-bold mb-1">{{ Review.owner }}</h6>
+                                                            {% endif %}
                                                                 <p class="mb-0">{{ Review.publishDate }}</p>
                                                             </div>
                                                             <div class="text-end">

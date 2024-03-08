@@ -38,6 +38,7 @@ class Review(models.Model):
     #reviewType = models.CharField(max_length=1500,null=True, blank=True)
     publishDate = models.DateTimeField(default=timezone.now) #Iteration 4:
     approved =  models.BooleanField(default=False) #Iteration 5:
+    anon =  models.BooleanField(default=False) #Iteration 6:
   
 
 

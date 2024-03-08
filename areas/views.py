@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 from django.core.serializers import serialize
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
+import random
+import os
+from django.conf import settings
 
 # Requests to dispaly html pages
 
@@ -54,13 +57,17 @@ def show_map(request):
     else:
         avg_rating = Review.objects.filter(approved=True).aggregate(Avg('feelRating'))['feelRating__avg']
 
+    approved_reviews_count = Review.objects.filter(approved=True).count()
 
+   
     context = {
         'review_list' : review_list,
         'police_list' : police_list,
         'crime_list': crime_list,
         'avg_rating' : avg_rating,
         'locationFilter': location_filter,
+        'approved_reviews_count': approved_reviews_count,
+        
     }
           
     return render(request, 'map.html', context)             
