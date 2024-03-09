@@ -336,7 +336,27 @@ function style(feature) {
     };
 }
 
+// Iteration 3
+// SIDE INFO PANEL
+// REF: Leaflet Documentation (Leafletjs.com, 2023) 
 var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+ 
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Area Info</h4>' +  (props ?
+        '<b>' + props.policeName + '</b><br />' + 'Safety Rating: ' + props.crimeRating + '/5'
+        : 'Hover over a sector');
+};
+
+info.addTo(map);
+
+
+//var info = L.control();
 
 // Iteration 3
 // HOVER/CLICK SECTOR ANIMATION + TOOLTIP
@@ -601,26 +621,6 @@ window.addEventListener('load', function() {
     updateLocationNameFromID(locationFilter);
 });
 
-// Iteration 3
-// SIDE INFO PANEL
-// REF: Leaflet Documentation (Leafletjs.com, 2023) 
-var info = L.control();
-
-info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    this.update();
-    return this._div;
-};
- 
-info.update = function (props) { // Update side panel based on hovered sector
-    this._div.innerHTML = '<h4>Safety Rating</h4>' +  (props ?
-        '<b>' + props.policeName + '</b><br/>' 
-        + 'Safety Rating: '+ props.crimeRating + '</b><br/>' 
-     //   + 'Reviews: '+ props.crimeRating + '</b><br/>' - Next Section
-        : 'Hover over a sector');
-};
-
-info.addTo(map);
 
 
 </script>
