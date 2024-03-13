@@ -142,9 +142,11 @@
                                                         </div>
                                                         <p class="mb-0">{{ Review.reviewText }}</p>
                                                         {% if Review.image %}
-                                                            <br>
+                                                        <br>
+                                                        <div class="text-center">
                                                             <img style="width:40%; box-shadow: 0px 0px 10px black;" class="small-image" src="{{ Review.image.url }}" alt="crime_image" onclick="openImagePopup('{{ Review.image.url }}')">
-                                                        {% endif %}
+                                                        </div>
+                                                    {% endif %}
                                                     </div>
                                                 </div>
                                             </div>

@@ -131,7 +131,7 @@
         </section>
 
         <div class="container pt-4 text-center">
-            <p>Tip: Use the <span style="font-weight: bold; color: black;">search icon</span> on the <span style="font-weight: bold; color: black;">map</span> to search for an address.</p>
+            <p>Tip: <span style="font-weight: bold; color: black;">Click</span> on an area or use the <span style="font-weight: bold; color: black;">search icon</span> on the <span style="font-weight: bold; color: black;">map</span> to search for an address.</p>
         </div>
 
         <!-- Iteration 3: -->
@@ -157,7 +157,7 @@
                     <!-- Second Column -->
                     <div class="col-lg-4" style="padding-top: 15px">
                         <div class="p-3 rounded-big shadow" style="text-align: center">
-                            <h5 class="display-4" id='safety-rank'><b>Blarney </b></h5>
+                            <h5 class="display-4" id='safety-rank'><b>Blarney</b></h5>
                             <h4>Safest in Cork by Crime</h4>
                         </div>
                     </div>
@@ -226,7 +226,9 @@
                                                     <p class="mb-0">{{ Review.reviewText }}</p>
                                                     {% if Review.image %}
                                                         <br>
-                                                        <img style="width:40%; box-shadow: 0px 0px 10px black;" class="small-image" src="{{ Review.image.url }}" alt="crime_image" onclick="openImagePopup('{{ Review.image.url }}')">
+                                                        <div class="text-center">
+                                                            <img style="width:40%; box-shadow: 0px 0px 10px black;" class="small-image" src="{{ Review.image.url }}" alt="crime_image" onclick="openImagePopup('{{ Review.image.url }}')">
+                                                        </div>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -497,7 +499,7 @@ var searchControl = new L.Control.Search({
     }
 });
 
-map.addControl(searchControl);
+//map.addControl(searchControl);
 
 // Iteration 6
 // Function to update the location name in HTML
@@ -553,6 +555,7 @@ document.getElementById("go-to-review").addEventListener("click", function() {
     }
 });
 
+/*
 document.getElementById('dropdown').addEventListener('submit', function(event) {
     // Prevent the form from being submitted normally
     event.preventDefault();
@@ -573,6 +576,7 @@ document.getElementById('dropdown').addEventListener('submit', function(event) {
         }
     });
 });
+*/
 
 // Print clicked location name above map
 function updateLocationNameFromID(policeID) { 

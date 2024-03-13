@@ -80,7 +80,7 @@ def average_rating(request):
     # REF: Github Copilot (2024) - 'how to calculate the average feelRating of all Review objects where pliceID == locationFilter'
     locationFilter = request.GET.get('locationFilter')
 
-    reviews = Review.objects.filter(policeID=locationFilter)
+    reviews = Review.objects.filter(policeID=locationFilter, approved=True)
 
     averageRating = reviews.aggregate(Avg('feelRating'))['feelRating__avg']
 

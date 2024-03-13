@@ -35,14 +35,14 @@ class ReviewForm(ModelForm):
     # Iteration 6
     # Only allow increments of 0.5 for feelRating
     # REF: (Copilot, 2024) - 'How do I allow only increments of 0.5?'
-    RATING_CHOICES = [(None, 'SELECT : Unsafe 1 - 5 Very Safe')] + [(i/2, str(i/2)) for i in range(2, 11)]
+    RATING_CHOICES = [(None, '-----')] + [(i/2, str(i/2)) for i in range(2, 11)]
 
     # Change PoliceID input to policeName dropdown
     policeName = forms.ModelChoiceField(queryset=PoliceDivision.objects.all(), empty_label=None, 
                                          widget=forms.Select(attrs={'class': 'form-control'}), 
                                          label='Select Area')
     # Use a ChoiceField for feelRating
-    feelRating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}), required=True)
+    feelRating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}), required=True, label='Safety Rating: 1 (Unsafe) - 5 (Safest)')
     
     # Add checkbox for 'anon' field
     anon = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}), required=False, initial=False, label='Anonymous')
